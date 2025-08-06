@@ -3,8 +3,8 @@ module.exports = {
     await knex('class').insert([
       { name: 'Guerreiro' },
       { name: 'Mago' },
-      { name: 'Arqueiro ' },
-      { name: 'Clérigo ' },
+      { name: 'Arqueiro' },
+      { name: 'Clérigo' },
     ]);
   },
 };
