@@ -1,0 +1,20 @@
+{
+  "name": "migrations",
+  "version": "1.0.0",
+  "description": "Migrations",
+  "main": "src/index.js",
+  "scripts": {
+    "migrations": "knex migrate:latest",
+    "migrations:rollback": "knex migrate:rollback",
+    "seeds": "knex seed:run"
+  },
+  "dependencies": {
+    "knex": "^2.0.0",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  },
+  "author": "Fernando Leoncio Porfirio",
+  "license": "ISC"
+}
