@@ -1,0 +1,39 @@
+{
+  "name": "rpg-session-manager-api",
+  "version": "1.0.0",
+  "description": "api",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "eslint src --ext .js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fernando Leoncio Porfirio",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "joi": "^18.0.0",
+    "knex": "^0.95.0",
+    "module-alias": "^2.2.3",
+    "morgan": "^1.10.1",
+    "pg": "^8.7.1"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@controller": "src/controller",
+    "@useCase": "src/useCase",
+    "@service": "src/service",
+    "@errors": "src/errors",
+    "@middlewares": "src/middlewares",
+    "@routes": "src/routes"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0"
+  }
+}
