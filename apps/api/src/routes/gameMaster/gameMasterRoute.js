@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require('@middlewares/authMiddleware');
-const gameMasterController = require("@controller/gameMasterController");
+const authMiddleware = require("@middlewares/authMiddleware");
+const gameMasterController = require("@controllers/gameMasterController");
 
-const { createGameMasterSchema, loginSchema } = require("./gameMasterValidator");
+const {
+  createGameMasterSchema,
+  loginSchema,
+} = require("./gameMasterValidator");
 const validateBody = require("@middlewares/validateBody");
 
 router.post(
@@ -12,16 +15,8 @@ router.post(
   gameMasterController.create
 );
 
-router.post(
-  "/login",
-  validateBody(loginSchema),
-  gameMasterController.login
-);
+router.post("/login", validateBody(loginSchema), gameMasterController.login);
 
-router.get(
-  "/:id",
-  authMiddleware,
-  gameMasterController.getById
-);
+router.get("/:id", authMiddleware, gameMasterController.getById);
 
 module.exports = router;
