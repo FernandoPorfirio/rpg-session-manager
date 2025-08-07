@@ -10,8 +10,17 @@ const create = async ({ name, email, password }) => {
 
 const getByEmail = async (email) => {
   const result = await db('game_master')
-    .select('id', 'name', 'email')
+    .select('id', 'name', 'email', 'password')
     .where({ email })
+    .first();
+
+  return result;
+};
+
+const getById = async (id) => {
+  const result = await db('game_master')
+    .select('id', 'name', 'email')
+    .where({ id })
     .first();
 
   return result;
@@ -19,5 +28,6 @@ const getByEmail = async (email) => {
 
 module.exports = {
   create,
-  getByEmail
+  getByEmail,
+  getById
 };
