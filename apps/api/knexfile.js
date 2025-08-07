@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-module.exports = {
+const baseConfig = {
   client: 'pg',
   connection: {
     host: process.env.DB_HOST,
@@ -9,4 +9,16 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
   }
+};
+
+module.exports = {
+  development: baseConfig,
+  test: {
+    ...baseConfig,
+    connection: {
+      ...baseConfig.connection,
+      database: process.env.DB_NAME || 'app_db_test',
+    },
+  },
+  production: baseConfig,
 };
