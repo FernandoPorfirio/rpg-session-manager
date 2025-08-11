@@ -10,8 +10,6 @@ const create = async ({ name, email, password }) => {
 
   const databaseGameMaster = await gameMasterService.getByEmail(email);
 
-  console.log("databaseGameMaster", databaseGameMaster);
-
   if (databaseGameMaster) {
     throw new AppError("Email já cadastrado!", 400);
   }
