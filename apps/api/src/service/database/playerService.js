@@ -26,7 +26,7 @@ const update = async ({ id, name, classId, level, lore }) => {
   if (lore !== undefined) updateData.lore = lore;
 
   const result = await db("player")
-    .where({ id })
+    .where({ id, is_deleted: false })
     .update(updateData)
     .returning(["id", "name", "class_id", "level", "lore", "game_master_id", "created_at", "updated_at"]);
 
@@ -47,7 +47,7 @@ const getById = async (id) => {
       "class.name as class_name"
     )
     .leftJoin("class", "player.class_id", "class.id")
-    .where({ "player.id": id })
+    .where({ "player.id": id, "player.is_deleted": false })
     .first();
 
   return result;
@@ -67,19 +67,28 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId }
       "class.name as class_name"
     )
     .leftJoin("class", "player.class_id", "class.id")
-    .where({ "player.game_master_id": gameMasterId });
+    .where({ "player.game_master_id": gameMasterId, "player.is_deleted": false });
 
   if (sessionId) {
     query = query
-      .leftJoin("guild_member", "player.id", "guild_member.player_id")
-      .leftJoin("guild", "guild_member.guild_id", "guild.id")
+      .leftJoin("guild_member", function() {
+        this.on("player.id", "=", "guild_member.player_id")
+            .on("guild_member.is_deleted", "=", db.raw("false"));
+      })
+      .leftJoin("guild", function() {
+        this.on("guild_member.guild_id", "=", "guild.id")
+            .on("guild.is_deleted", "=", db.raw("false"));
+      })
       .where("guild.session_id", sessionId);
   }
 
   if (guildId) {
     if (!sessionId) {
       query = query
-        .leftJoin("guild_member", "player.id", "guild_member.player_id");
+        .leftJoin("guild_member", function() {
+          this.on("player.id", "=", "guild_member.player_id")
+              .on("guild_member.is_deleted", "=", db.raw("false"));
+        });
     }
     query = query.where("guild_member.guild_id", guildId);
   }
@@ -90,10 +99,13 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId }
   return result;
 };
 
-const deleteById = async (id) => {
+const softDelete = async (id) => {
   const result = await db("player")
-    .where({ id })
-    .del()
+    .where({ id, is_deleted: false })
+    .update({
+      is_deleted: true,
+      updated_at: db.fn.now()
+    })
     .returning(["id"]);
 
   return result[0];
@@ -104,5 +116,5 @@ module.exports = {
   update,
   getById,
   getByGameMasterIdWithFilters,
-  deleteById,
+  softDelete,
 };
