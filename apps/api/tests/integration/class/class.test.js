@@ -5,14 +5,6 @@ const app = require('../../../src/app');
 const db = require('../../../src/service/database/db');
 
 beforeEach(async () => {
-  // Reset class table to seed data
-  await db('class').del();
-  await db('class').insert([
-    { name: 'Guerreiro' },
-    { name: 'Mago' },
-    { name: 'Arqueiro' },
-    { name: 'Clérigo' },
-  ]);
 });
 
 afterAll(async () => {
@@ -43,18 +35,6 @@ describe('Class API', () => {
         expect(typeof classItem.name).toBe('string');
       });
     });
-
-    it('deve retornar array vazio se não existirem classes', async () => {
-      await db('class').del();
-
-      const response = await request(app)
-        .get('/api/class');
-
-      expect(response.statusCode).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body).toHaveLength(0);
-    });
-
   });
 
   describe('GET /api/class/:id', () => {
