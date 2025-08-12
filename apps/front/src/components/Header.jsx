@@ -1,9 +1,9 @@
-const Header = ({ isAuthenticated, onLogout, onNavigate }) => {
+const Header = ({ isAuthenticated, onLogout, onNavigate, user }) => {
   return (
     <header className="header">
       <div className="container">
         <nav>
-          <div className="logo">RPG Session Manager</div>
+          <div className="logo">RPG Session Manager {user?.name ? ` - GM ${user.name}!` : ""}</div>
           <div className="nav-links">
             {isAuthenticated ? (
               <button onClick={onLogout} className="btn btn-secondary">Sair</button>
