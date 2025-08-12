@@ -48,7 +48,7 @@ const deletePlayer = async ({ id }) => {
     throw new AppError("Player não encontrado!", 404);
   }
 
-  return await playerService.deleteById(id);
+  return await playerService.softDelete(id);
 };
 
 module.exports = {
