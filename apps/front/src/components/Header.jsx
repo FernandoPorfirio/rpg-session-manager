@@ -6,10 +6,7 @@ const Header = ({ isAuthenticated, onLogout, onNavigate }) => {
           <div className="logo">RPG Session Manager</div>
           <div className="nav-links">
             {isAuthenticated ? (
-              <>
-                <button className="btn btn-secondary">Minhas Sessões</button>
-                <button onClick={onLogout} className="btn btn-secondary">Sair</button>
-              </>
+              <button onClick={onLogout} className="btn btn-secondary">Sair</button>
             ) : (
               <>
                 <button onClick={() => onNavigate('signin')} className="btn btn-secondary">Entrar</button>
