@@ -27,16 +27,6 @@ async function loginGameMaster({
   return response.body.token;
 }
 
-async function createClass({
-  name = 'Test Class'
-} = {}) {
-  const result = await db('class')
-    .insert({ name })
-    .returning(['id', 'name']);
-
-  return result[0];
-}
-
 async function createPlayer({
   name = 'Test Player',
   classId,
@@ -53,10 +43,9 @@ async function createPlayer({
 
 beforeEach(async () => {
   // Clean up test data in the correct order due to foreign key constraints
-  await db('guild_member').del();
-  await db('guild').del();
+  // await db('guild_member').del();
+  // await db('guild').del();
   await db('player').del();
-  await db('class').del();
   await db('game_master').del();
 });
 
@@ -71,11 +60,11 @@ describe('Player API', () => {
     it('deve criar um novo player', async () => {
       const gameMaster = await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass({ name: 'Guerreiro' });
+
 
       const playerData = {
         name: 'Aragorn',
-        classId: testClass.id,
+        classId: 1,
         level: 10,
         lore: 'Um ranger do norte, herdeiro do trono de Gondor'
       };
@@ -87,7 +76,7 @@ describe('Player API', () => {
 
       expect(response.statusCode).toBe(201);
       expect(response.body).toHaveProperty('name', 'Aragorn');
-      expect(response.body).toHaveProperty('class_id', testClass.id);
+      expect(response.body).toHaveProperty('class_id', 1);
       expect(response.body).toHaveProperty('level', 10);
       expect(response.body).toHaveProperty('lore', 'Um ranger do norte, herdeiro do trono de Gondor');
       expect(response.body).toHaveProperty('game_master_id', gameMaster.id);
@@ -97,11 +86,11 @@ describe('Player API', () => {
     it('deve criar um player com level padrão 1', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass({ name: 'Mago' });
+
 
       const playerData = {
         name: 'Gandalf',
-        classId: testClass.id,
+        classId: 1,
         lore: 'Um mago cinzento'
       };
 
@@ -118,11 +107,10 @@ describe('Player API', () => {
     it('deve criar um player sem lore (campo opcional)', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass({ name: 'Arqueiro' });
 
       const playerData = {
         name: 'Legolas',
-        classId: testClass.id,
+        classId: 1,
         level: 15
       };
 
@@ -137,13 +125,13 @@ describe('Player API', () => {
     });
 
     it('deve falhar se não enviar o token de autenticação', async () => {
-      const testClass = await createClass();
+
 
       const response = await request(app)
         .post('/api/player')
         .send({
           name: 'Test Player',
-          classId: testClass.id
+          classId: 1
         });
 
       expect(response.statusCode).toBe(401);
@@ -152,13 +140,13 @@ describe('Player API', () => {
     it('deve falhar se não enviar o name (campo obrigatório)', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const response = await request(app)
         .post('/api/player')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          classId: testClass.id,
+          classId: 1,
           level: 10
         });
 
@@ -183,14 +171,14 @@ describe('Player API', () => {
     it('deve falhar se enviar name muito curto', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const response = await request(app)
         .post('/api/player')
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'A',
-          classId: testClass.id
+          classId: 1
         });
 
       expect(response.statusCode).toBe(400);
@@ -199,14 +187,14 @@ describe('Player API', () => {
     it('deve falhar se enviar level inválido', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const response = await request(app)
         .post('/api/player')
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Test Player',
-          classId: testClass.id,
+          classId: 1,
           level: 0
         });
 
@@ -219,18 +207,16 @@ describe('Player API', () => {
     it('deve atualizar um player existente', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass1 = await createClass({ name: 'Guerreiro' });
-      const testClass2 = await createClass({ name: 'Paladino' });
 
       const player = await createPlayer({
         name: 'Test Player',
-        classId: testClass1.id,
+        classId: 1,
         level: 5
       }, token);
 
       const updateData = {
         name: 'Updated Player',
-        classId: testClass2.id,
+        classId: 2,
         level: 10,
         lore: 'Updated lore'
       };
@@ -242,7 +228,7 @@ describe('Player API', () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body).toHaveProperty('name', 'Updated Player');
-      expect(response.body).toHaveProperty('class_id', testClass2.id);
+      expect(response.body).toHaveProperty('class_id', 2);
       expect(response.body).toHaveProperty('level', 10);
       expect(response.body).toHaveProperty('lore', 'Updated lore');
     });
@@ -250,11 +236,11 @@ describe('Player API', () => {
     it('deve atualizar apenas os campos enviados', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const player = await createPlayer({
         name: 'Original Name',
-        classId: testClass.id,
+        classId: 1,
         level: 5,
         lore: 'Original Lore'
       }, token);
@@ -270,7 +256,7 @@ describe('Player API', () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body).toHaveProperty('name', 'New Name');
-      expect(response.body).toHaveProperty('class_id', testClass.id);
+      expect(response.body).toHaveProperty('class_id', 1);
       expect(response.body).toHaveProperty('level', 5);
       expect(response.body).toHaveProperty('lore', 'Original Lore');
     });
@@ -302,11 +288,10 @@ describe('Player API', () => {
     it('deve retornar um player por id com informações da classe', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass({ name: 'Clérigo' });
 
       const player = await createPlayer({
         name: 'Test Player',
-        classId: testClass.id,
+        classId: 1,
         level: 12,
         lore: 'Test lore'
       }, token);
@@ -318,7 +303,7 @@ describe('Player API', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toHaveProperty('id', player.id);
       expect(response.body).toHaveProperty('name', 'Test Player');
-      expect(response.body).toHaveProperty('class_id', testClass.id);
+      expect(response.body).toHaveProperty('class_id', 1);
       expect(response.body).toHaveProperty('level', 12);
       expect(response.body).toHaveProperty('lore', 'Test lore');
       expect(response.body).toHaveProperty('class_name', 'Clérigo');
@@ -349,11 +334,11 @@ describe('Player API', () => {
     it('deve retornar todos os players do game master', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
 
-      await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
-      await createPlayer({ name: 'Player 2', classId: testClass.id }, token);
-      await createPlayer({ name: 'Player 3', classId: testClass.id }, token);
+
+      await createPlayer({ name: 'Player 1', classId: 1 }, token);
+      await createPlayer({ name: 'Player 2', classId: 1 }, token);
+      await createPlayer({ name: 'Player 3', classId: 1 }, token);
 
       const response = await request(app)
         .get('/api/player')
@@ -382,10 +367,10 @@ describe('Player API', () => {
     it('deve retornar apenas players não deletados', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
 
-      const player1 = await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
-      await createPlayer({ name: 'Player 2', classId: testClass.id }, token);
+
+      const player1 = await createPlayer({ name: 'Player 1', classId: 1 }, token);
+      await createPlayer({ name: 'Player 2', classId: 1 }, token);
 
       await request(app)
         .delete(`/api/player/${player1.id}`)
@@ -403,10 +388,10 @@ describe('Player API', () => {
     it('deve filtrar players por sessionId quando fornecido', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
 
-      await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
-      await createPlayer({ name: 'Player 2', classId: testClass.id }, token);
+
+      await createPlayer({ name: 'Player 1', classId: 1 }, token);
+      await createPlayer({ name: 'Player 2', classId: 1 }, token);
 
       const response = await request(app)
         .get('/api/player?sessionId=1')
@@ -419,9 +404,9 @@ describe('Player API', () => {
     it('deve filtrar players por guildId quando fornecido', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
 
-      await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
+
+      await createPlayer({ name: 'Player 1', classId: 1 }, token);
 
       const response = await request(app)
         .get('/api/player?guildId=1')
@@ -434,9 +419,9 @@ describe('Player API', () => {
     it('deve filtrar players por sessionId e guildId quando ambos fornecidos', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
 
-      await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
+
+      await createPlayer({ name: 'Player 1', classId: 1 }, token);
 
       const response = await request(app)
         .get('/api/player?sessionId=1&guildId=1')
@@ -459,8 +444,8 @@ describe('Player API', () => {
     it('deve deletar um player', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
-      const player = await createPlayer({ classId: testClass.id }, token);
+
+      const player = await createPlayer({ classId: 1 }, token);
 
       const response = await request(app)
         .delete(`/api/player/${player.id}`)
@@ -515,14 +500,14 @@ describe('Player API', () => {
     it('deve falhar com level maior que 100', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const response = await request(app)
         .post('/api/player')
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Test Player',
-          classId: testClass.id,
+          classId: 1,
           level: 101
         });
 
@@ -532,7 +517,7 @@ describe('Player API', () => {
     it('deve falhar com name muito longo', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const longName = 'a'.repeat(101);
 
@@ -541,7 +526,7 @@ describe('Player API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: longName,
-          classId: testClass.id
+          classId: 1
         });
 
       expect(response.statusCode).toBe(400);
@@ -550,7 +535,7 @@ describe('Player API', () => {
     it('deve falhar com lore muito longa', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      const testClass = await createClass();
+
 
       const longLore = 'a'.repeat(2001);
 
@@ -559,7 +544,7 @@ describe('Player API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Test Player',
-          classId: testClass.id,
+          classId: 1,
           lore: longLore
         });
 

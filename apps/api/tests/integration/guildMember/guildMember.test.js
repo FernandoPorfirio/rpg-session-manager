@@ -40,16 +40,6 @@ async function createSession({
   return response.body;
 }
 
-async function createClass({
-  name = 'Test Class'
-} = {}) {
-  const result = await db('class')
-    .insert({ name })
-    .returning(['id', 'name']);
-
-  return result[0];
-}
-
 async function createPlayer({
   name = 'Test Player',
   classId,
@@ -95,7 +85,6 @@ beforeEach(async () => {
   await db('guild').del();
   await db('player').del();
   await db('session').del();
-  await db('class').del();
   await db('game_master').del();
 });
 
@@ -111,14 +100,13 @@ describe('Guild Member API', () => {
       const gameMaster = await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass({ name: 'Guerreiro' });
-      const player = await createPlayer({ 
-        name: 'Test Player', 
-        classId: testClass.id 
+      const player = await createPlayer({
+        name: 'Test Player',
+        classId: 1
       }, token);
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
       const guildMemberData = {
@@ -142,14 +130,13 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass({ name: 'Guerreiro' });
-      const player = await createPlayer({ 
-        name: 'Test Player', 
-        classId: testClass.id 
+      const player = await createPlayer({
+        name: 'Test Player',
+        classId: 1
       }, token);
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
       // Criar o primeiro guild member
@@ -247,14 +234,13 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass({ name: 'Mago' });
-      const player = await createPlayer({ 
-        name: 'Test Player', 
-        classId: testClass.id 
+      const player = await createPlayer({
+        name: 'Test Player',
+        classId: 1
       }, token);
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
       const guildMember = await createGuildMember({
@@ -300,23 +286,23 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
-      const player3 = await createPlayer({ 
-        name: 'Player 3', 
-        classId: testClass.id 
+      const player3 = await createPlayer({
+        name: 'Player 3',
+        classId: 1
       }, token);
 
       await createGuildMember({ guildId: guild.id, playerId: player1.id }, token);
@@ -341,24 +327,24 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      
-      const guild1 = await createGuild({ 
-        name: 'Guild 1', 
-        sessionId: session.id 
+
+
+      const guild1 = await createGuild({
+        name: 'Guild 1',
+        sessionId: session.id
       }, token);
-      const guild2 = await createGuild({ 
-        name: 'Guild 2', 
-        sessionId: session.id 
+      const guild2 = await createGuild({
+        name: 'Guild 2',
+        sessionId: session.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
 
       await createGuildMember({ guildId: guild1.id, playerId: player1.id }, token);
@@ -378,27 +364,27 @@ describe('Guild Member API', () => {
     it('deve filtrar guild members por sessionId quando fornecido', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      
+
       const session1 = await createSession({ name: 'Session 1' }, token);
       const session2 = await createSession({ name: 'Session 2' }, token);
-      const testClass = await createClass();
-      
-      const guild1 = await createGuild({ 
-        name: 'Guild 1', 
-        sessionId: session1.id 
+
+
+      const guild1 = await createGuild({
+        name: 'Guild 1',
+        sessionId: session1.id
       }, token);
-      const guild2 = await createGuild({ 
-        name: 'Guild 2', 
-        sessionId: session2.id 
+      const guild2 = await createGuild({
+        name: 'Guild 2',
+        sessionId: session2.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
 
       await createGuildMember({ guildId: guild1.id, playerId: player1.id }, token);
@@ -418,27 +404,27 @@ describe('Guild Member API', () => {
     it('deve filtrar guild members por guildId e sessionId quando ambos fornecidos', async () => {
       await createGameMaster();
       const token = await loginGameMaster();
-      
+
       const session1 = await createSession({ name: 'Session 1' }, token);
       const session2 = await createSession({ name: 'Session 2' }, token);
-      const testClass = await createClass();
-      
-      const guild1 = await createGuild({ 
-        name: 'Guild 1', 
-        sessionId: session1.id 
+
+
+      const guild1 = await createGuild({
+        name: 'Guild 1',
+        sessionId: session1.id
       }, token);
-      const guild2 = await createGuild({ 
-        name: 'Guild 2', 
-        sessionId: session2.id 
+      const guild2 = await createGuild({
+        name: 'Guild 2',
+        sessionId: session2.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
 
       await createGuildMember({ guildId: guild1.id, playerId: player1.id }, token);
@@ -473,19 +459,19 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
 
       const guildMember1 = await createGuildMember({ guildId: guild.id, playerId: player1.id }, token);
@@ -518,14 +504,14 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      const player = await createPlayer({ 
-        name: 'Test Player', 
-        classId: testClass.id 
+
+      const player = await createPlayer({
+        name: 'Test Player',
+        classId: 1
       }, token);
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
       const guildMember = await createGuildMember({
@@ -572,19 +558,19 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      const player = await createPlayer({ 
-        name: 'Test Player', 
-        classId: testClass.id 
+
+      const player = await createPlayer({
+        name: 'Test Player',
+        classId: 1
       }, token);
-      
-      const guild1 = await createGuild({ 
-        name: 'Guild 1', 
-        sessionId: session.id 
+
+      const guild1 = await createGuild({
+        name: 'Guild 1',
+        sessionId: session.id
       }, token);
-      const guild2 = await createGuild({ 
-        name: 'Guild 2', 
-        sessionId: session.id 
+      const guild2 = await createGuild({
+        name: 'Guild 2',
+        sessionId: session.id
       }, token);
 
       // Adicionar o player à primeira guild
@@ -614,19 +600,19 @@ describe('Guild Member API', () => {
       await createGameMaster();
       const token = await loginGameMaster();
       const session = await createSession({}, token);
-      const testClass = await createClass();
-      const guild = await createGuild({ 
-        name: 'Test Guild', 
-        sessionId: session.id 
+
+      const guild = await createGuild({
+        name: 'Test Guild',
+        sessionId: session.id
       }, token);
 
-      const player1 = await createPlayer({ 
-        name: 'Player 1', 
-        classId: testClass.id 
+      const player1 = await createPlayer({
+        name: 'Player 1',
+        classId: 1
       }, token);
-      const player2 = await createPlayer({ 
-        name: 'Player 2', 
-        classId: testClass.id 
+      const player2 = await createPlayer({
+        name: 'Player 2',
+        classId: 1
       }, token);
 
       // Adicionar primeiro player
