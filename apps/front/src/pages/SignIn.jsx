@@ -1,4 +1,15 @@
 import { useState } from 'react'
+import { 
+  Container, 
+  Paper, 
+  TextField, 
+  Button, 
+  Typography, 
+  Box, 
+  Alert,
+  Link,
+  CircularProgress
+} from '@mui/material'
 import ApiService from '../services/api'
 
 const SignIn = ({ onNavigate, onSignIn }) => {
@@ -44,75 +55,92 @@ const SignIn = ({ onNavigate, onSignIn }) => {
   }
 
   return (
-    <div className="page">
-      <main className="main-content">
-        <div className="container">
-          <div className="form-container">
-            <h1 className="text-center mb-2">Entrar</h1>
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(180deg, #a3bb98 0%, #ffffff 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        py: 4
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper 
+          elevation={3}
+          sx={{ 
+            p: 4,
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <Typography variant="h4" component="h1" textAlign="center" gutterBottom>
+            Entrar
+          </Typography>
 
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form-input"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
 
-              <div className="form-group">
-                <label htmlFor="password" className="form-label">Senha</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="form-input"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <TextField
+              fullWidth
+              label="Senha"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
 
-              {error && (
-                <div className="text-error mb-1">{error}</div>
-              )}
+            {error && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {error}
+              </Alert>
+            )}
 
-              <button
-                type="submit"
-                className="btn btn-primary btn-full mb-1"
-                disabled={loading}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              sx={{ mt: 3, mb: 2, py: 1.5 }}
+            >
+              {loading ? <CircularProgress size={24} /> : 'Entrar'}
+            </Button>
+          </Box>
+
+          <Box textAlign="center">
+            <Typography>
+              Não tem uma conta?{' '}
+              <Link
+                component="button"
+                onClick={() => onNavigate('signup')}
+                sx={{ cursor: 'pointer' }}
               >
-                {loading ? 'Entrando...' : 'Entrar'}
-              </button>
-            </form>
-
-            <div className="text-center">
-              <p>
-                Não tem uma conta?{' '}
-                <button
-                  onClick={() => onNavigate('signup')}
-                  style={{ background: 'none', border: 'none', color: '#a3bb98', textDecoration: 'underline', cursor: 'pointer' }}
-                >
-                  Cadastre-se
-                </button>
-              </p>
-              <p className="mt-1">
-                <button
-                  onClick={() => onNavigate('home')}
-                  style={{ background: 'none', border: 'none', color: '#a3bb98', textDecoration: 'underline', cursor: 'pointer' }}
-                >
-                  Voltar ao início
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+                Cadastre-se
+              </Link>
+            </Typography>
+            <Typography sx={{ mt: 1 }}>
+              <Link
+                component="button"
+                onClick={() => onNavigate('home')}
+                sx={{ cursor: 'pointer' }}
+              >
+                Voltar ao início
+              </Link>
+            </Typography>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   )
 }
 
