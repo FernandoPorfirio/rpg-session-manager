@@ -30,7 +30,7 @@ router.get(
 );
 
 router.get(
-  "/game_master/:gameMasterId",
+  "/",
   authMiddleware,
   sessionController.getByGameMasterId
 );
