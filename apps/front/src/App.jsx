@@ -1,34 +1,80 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import PublicHome from './pages/PublicHome'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
+import AuthenticatedHome from './pages/AuthenticatedHome'
+import Header from './components/Header'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home')
+  const [user, setUser] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const handleNavigate = (page) => {
+    setCurrentPage(page)
+  }
+
+  const handleSignIn = (userData) => {
+    setUser(userData)
+    setIsAuthenticated(true)
+    setCurrentPage('authenticated-home')
+  }
+
+  const handleSignUp = (userData) => {
+    setUser(userData)
+    setIsAuthenticated(true)
+    setCurrentPage('authenticated-home')
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    setIsAuthenticated(false)
+    setCurrentPage('home')
+  }
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'signin':
+        return (
+          <SignIn 
+            onNavigate={handleNavigate} 
+            onSignIn={handleSignIn}
+          />
+        )
+      case 'signup':
+        return (
+          <SignUp 
+            onNavigate={handleNavigate} 
+            onSignUp={handleSignUp}
+          />
+        )
+      case 'authenticated-home':
+        return (
+          <AuthenticatedHome 
+            user={user}
+            onLogout={handleLogout}
+          />
+        )
+      default:
+        return (
+          <PublicHome 
+            onNavigate={handleNavigate}
+          />
+        )
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      {currentPage !== 'signin' && currentPage !== 'signup' && (
+        <Header 
+          isAuthenticated={isAuthenticated}
+          onLogout={handleLogout}
+          onNavigate={handleNavigate}
+        />
+      )}
+      {renderCurrentPage()}
+    </div>
   )
 }
 
