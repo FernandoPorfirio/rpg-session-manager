@@ -113,6 +113,7 @@ const App = () => {
           isAuthenticated={isAuthenticated}
           onLogout={handleLogout}
           onNavigate={handleNavigate}
+          user={user}
         />
       )}
       {renderCurrentPage()}
