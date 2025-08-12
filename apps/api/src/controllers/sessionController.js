@@ -1,15 +1,13 @@
 const sessionUseCase = require("@useCase/sessionUseCase");
 
-//TODO: Ajustar em todos os locais os nomes dos parametros para usar camelCase
-
 const create = async (req, res) => {
-  const { name, max_level, lore } = req.body;
-  const { id: game_master_id } = req.gameMaster;
+  const { name, maxLevel, lore } = req.body;
+  const { id: gameMasterId } = req.gameMaster;
 
   const session = await sessionUseCase.create({
     name,
-    max_level,
-    game_master_id,
+    maxLevel,
+    gameMasterId,
     lore
   });
 
@@ -18,13 +16,13 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, max_level, session_status_id, lore } = req.body;
+  const { name, maxLevel, sessionStatusId, lore } = req.body;
 
   const session = await sessionUseCase.update({
     id,
     name,
-    max_level,
-    session_status_id,
+    maxLevel,
+    sessionStatusId,
     lore
   });
 
@@ -38,7 +36,7 @@ const getById = async (req, res) => {
 };
 
 const getByGameMasterId = async (req, res) => {
-  const { gameMasterId } = req.params;
+  const { id: gameMasterId } = req.gameMaster;
   const sessions = await sessionUseCase.getByGameMasterId({ gameMasterId });
   res.status(200).json(sessions);
 };
