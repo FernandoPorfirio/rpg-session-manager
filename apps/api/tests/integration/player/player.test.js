@@ -52,6 +52,9 @@ async function createPlayer({
 }
 
 beforeEach(async () => {
+  // Clean up test data in the correct order due to foreign key constraints
+  await db('guild_member').del();
+  await db('guild').del();
   await db('player').del();
   await db('class').del();
   await db('game_master').del();
@@ -374,6 +377,27 @@ describe('Player API', () => {
       expect(response.statusCode).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body).toHaveLength(0);
+    });
+
+    it('deve retornar apenas players não deletados', async () => {
+      await createGameMaster();
+      const token = await loginGameMaster();
+      const testClass = await createClass();
+
+      const player1 = await createPlayer({ name: 'Player 1', classId: testClass.id }, token);
+      await createPlayer({ name: 'Player 2', classId: testClass.id }, token);
+
+      await request(app)
+        .delete(`/api/player/${player1.id}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      const response = await request(app)
+        .get('/api/player')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0]).toHaveProperty('name', 'Player 2');
     });
 
     it('deve filtrar players por sessionId quando fornecido', async () => {
