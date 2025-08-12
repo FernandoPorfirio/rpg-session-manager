@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import PublicHome from './pages/PublicHome'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
@@ -94,15 +95,21 @@ const App = () => {
 
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '1.2rem'
-      }}>
-        Carregando...
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          background: 'linear-gradient(180deg, #a3bb98 0%, #ffffff 100%)'
+        }}
+      >
+        <CircularProgress size={60} />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Carregando...
+        </Typography>
+      </Box>
     );
   }
 
