@@ -1,38 +1,58 @@
+import { Container, Paper, Typography, Button, Box } from '@mui/material'
+
 const PublicHome = ({ onNavigate }) => {
   return (
-    <div className="page">
-      <main className="main-content">
-        <div className="container">
-          <div className="text-center mb-2">
-            <p style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>
-              Organize suas sessões de RPG de forma simples
-            </p>
-          </div>
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(180deg, #a3bb98 0%, #ffffff 100%)',
+        py: 4
+      }}
+    >
+      <Container maxWidth="md" sx={{ pt: 4 }}>
+        <Box textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="h4" component="p" gutterBottom>
+            Organize suas sessões de RPG de forma simples
+          </Typography>
+        </Box>
 
-          <div className="card text-center">
-            <h2 className="card-title">Bem-vindo!</h2>
-            <p className="mb-2">
-              Gerencie suas sessões de RPG, organize guilds e acompanhe seu progresso.
-            </p>
+        <Paper 
+          elevation={3}
+          sx={{ 
+            p: 4,
+            textAlign: 'center',
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <Typography variant="h5" component="h2" gutterBottom>
+            Bem-vindo!
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            Gerencie suas sessões de RPG, organize guilds e acompanhe seu progresso.
+          </Typography>
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => onNavigate('signin')}
-                className="btn btn-primary"
-              >
-                Entrar
-              </button>
-              <button
-                onClick={() => onNavigate('signup')}
-                className="btn btn-secondary"
-              >
-                Criar Conta
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => onNavigate('signin')}
+              sx={{ minWidth: 120 }}
+            >
+              Entrar
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => onNavigate('signup')}
+              sx={{ minWidth: 120 }}
+            >
+              Criar Conta
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   )
 }
 
