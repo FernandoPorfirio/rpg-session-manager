@@ -38,15 +38,18 @@ const getById = async (req, res) => {
 
 const getByGameMasterIdWithFilters = async (req, res) => {
   const { id: gameMasterId } = req.gameMaster;
-  const { sessionId, guildId } = req.query;
+  const { sessionId, guildId, name, page = 1, limit = 10 } = req.query;
 
-  const players = await playerUseCase.getByGameMasterIdWithFilters({
+  const result = await playerUseCase.getByGameMasterIdWithFilters({
     gameMasterId,
     sessionId: sessionId ? parseInt(sessionId) : null,
-    guildId: guildId ? parseInt(guildId) : null
+    guildId: guildId ? parseInt(guildId) : null,
+    name,
+    page: parseInt(page),
+    limit: parseInt(limit)
   });
 
-  res.status(200).json(players);
+  res.status(200).json(result);
 };
 
 const deletePlayer = async (req, res) => {
