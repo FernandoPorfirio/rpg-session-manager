@@ -12,18 +12,26 @@ const Header = ({ isAuthenticated, onLogout, user }) => {
   return (
     <AppBar position="static" sx={{ bgcolor: 'rgba(163, 187, 152, 0.9)', backdropFilter: 'blur(10px)' }}>
       <Toolbar>
-        <Typography 
-          variant="h5" 
-          component="div" 
-          sx={{ flexGrow: 1, color: 'text.primary', cursor: 'pointer' }}
+        <Typography
+          variant="h4"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            color: '#F5DEB3',
+            cursor: 'pointer',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+            '&:hover': {
+              color: '#B8860B',
+            }
+          }}
           onClick={() => navigate('/dashboard')}
         >
-          RPG Session Manager {user?.name ? ` - GM ${user.name}!` : ""}
+          🏰 RPG Session Manager {user?.name ? `- Mestre ${user.name} 🧙‍♂️` : ""}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           {isAuthenticated ? (
-            <Button 
-              variant="outlined" 
+            <Button
+              variant="outlined"
               onClick={handleLogout}
               sx={{ color: 'text.primary', borderColor: 'text.primary' }}
             >
@@ -31,19 +39,33 @@ const Header = ({ isAuthenticated, onLogout, user }) => {
             </Button>
           ) : (
             <>
-              <Button 
-                variant="outlined" 
+              <Button
+                variant="outlined"
                 onClick={() => navigate('/signin')}
-                sx={{ color: 'text.primary', borderColor: 'text.primary' }}
+                sx={{
+                  color: '#F5DEB3',
+                  borderColor: '#F5DEB3',
+                  '&:hover': {
+                    borderColor: '#B8860B',
+                    color: '#B8860B',
+                    background: 'rgba(184, 134, 11, 0.1)'
+                  }
+                }}
               >
-                Entrar
+                🏰 Entrar
               </Button>
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 onClick={() => navigate('/signup')}
-                sx={{ bgcolor: 'primary.main', color: 'text.primary' }}
+                sx={{
+                  bgcolor: '#B8860B',
+                  color: '#2F4F4F',
+                  '&:hover': {
+                    bgcolor: '#DAA520',
+                  }
+                }}
               >
-                Cadastrar
+                📜 Criar Lenda
               </Button>
             </>
           )}
