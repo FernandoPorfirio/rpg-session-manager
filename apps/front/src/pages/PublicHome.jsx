@@ -21,13 +21,14 @@ const PublicHome = () => {
           <Typography variant="h3" component="h1" gutterBottom sx={{
             color: '#2F4F4F',
             textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-            mb: 2
+            mb: 3
           }}>
-            🐉 RPG Session Manager 🗡️
+            🐉 RPG Session Manager
           </Typography>
           <Typography variant="h5" component="p" gutterBottom sx={{
             color: '#696969',
             fontStyle: 'italic',
+            fontSize: '1.4rem'
           }}>
             Organize suas sessões de RPG de forma épica
           </Typography>
@@ -36,7 +37,7 @@ const PublicHome = () => {
         <Paper
           elevation={3}
           sx={{
-            p: 4,
+            p: 5,
             textAlign: 'center',
             background: 'linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(245, 245, 220, 0.85) 100%)',
             backdropFilter: 'blur(15px)',
@@ -45,35 +46,65 @@ const PublicHome = () => {
             boxShadow: '0 8px 32px rgba(47, 79, 79, 0.2)',
           }}
         >
-          <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 3 }}>
-            ⚔️ Bem-vindo, Aventureiro! ⚔️
+          <Typography variant="h4" component="h2" gutterBottom sx={{ 
+            mb: 4,
+            color: '#2F4F4F'
+          }}>
+            ⚔️ Bem-vindo, Aventureiro!
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4, fontSize: '1.2rem', lineHeight: 1.6 }}>
+          <Typography variant="body1" sx={{ 
+            mb: 5, 
+            fontSize: '1.2rem', 
+            lineHeight: 1.6,
+            maxWidth: '600px',
+            margin: '0 auto 2rem auto'
+          }}>
             Gerencie suas campanhas épicas, organize guildas lendárias e acompanhe o progresso
             de seus heróis através de aventuras inesquecíveis.
           </Typography>
 
-          <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 3, 
+            justifyContent: 'center', 
+            flexWrap: 'wrap',
+            mb: 4
+          }}>
             <Button
               variant="contained"
               size="large"
               onClick={() => navigate('/signin')}
-              sx={{ minWidth: 140, py: 1.5 }}
+              sx={{ 
+                minWidth: 180, 
+                py: 2,
+                fontSize: '1.1rem'
+              }}
             >
-              🏰 Entrar na Taverna
+              Entrar na Taverna
             </Button>
             <Button
               variant="outlined"
               size="large"
               onClick={() => navigate('/signup')}
-              sx={{ minWidth: 140, py: 1.5 }}
+              sx={{ 
+                minWidth: 180, 
+                py: 2,
+                fontSize: '1.1rem'
+              }}
             >
-              📜 Pedir Alojamento
+              Pedir Alojamento
             </Button>
           </Box>
 
-          <Box sx={{ mt: 4, pt: 3, borderTop: '1px solid rgba(139, 69, 19, 0.2)' }}>
-            <Typography variant="body2" sx={{ color: '#696969', fontStyle: 'italic' }}>
+          <Box sx={{ 
+            pt: 4, 
+            borderTop: '1px solid rgba(139, 69, 19, 0.2)' 
+          }}>
+            <Typography variant="body2" sx={{ 
+              color: '#696969', 
+              fontStyle: 'italic',
+              fontSize: '1.1rem'
+            }}>
               "Toda grande aventura começa com um primeiro passo..."
             </Typography>
           </Box>

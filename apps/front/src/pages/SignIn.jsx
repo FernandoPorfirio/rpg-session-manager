@@ -77,11 +77,14 @@ const SignIn = ({ onSignIn }) => {
             borderRadius: '16px',
           }}
         >
-          <Box sx={{ textAlign: 'center', mb: 3 }}>
-            <Typography variant="h3" component="h1" gutterBottom>
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#2F4F4F' }}>
               🏰 Entrada da Taverna
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+            <Typography variant="body1" color="text.secondary" sx={{
+              fontStyle: 'italic',
+              fontSize: '1.1rem'
+            }}>
               "Mostre suas credenciais, aventureiro"
             </Typography>
           </Box>
@@ -89,30 +92,48 @@ const SignIn = ({ onSignIn }) => {
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <TextField
               fullWidth
-              label="📧 Email do Mestre"
+              label="Email do Mestre"
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
               margin="normal"
               required
-              sx={{ mb: 2 }}
+              sx={{
+                mb: 3,
+                '& .MuiInputBase-input': {
+                  py: 2,
+                  fontSize: '1.1rem'
+                },
+                '& .MuiInputLabel-root': {
+                  fontSize: '1.1rem'
+                }
+              }}
             />
 
             <TextField
               fullWidth
-              label="🔐 Palavra Secreta"
+              label="Palavra Secreta"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleChange}
               margin="normal"
               required
-              sx={{ mb: 3 }}
+              sx={{
+                mb: 4,
+                '& .MuiInputBase-input': {
+                  py: 2,
+                  fontSize: '1.1rem'
+                },
+                '& .MuiInputLabel-root': {
+                  fontSize: '1.1rem'
+                }
+              }}
             />
 
             {error && (
-              <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
+              <Alert severity="error" sx={{ mb: 3 }}>
                 {error}
               </Alert>
             )}
@@ -122,33 +143,46 @@ const SignIn = ({ onSignIn }) => {
               fullWidth
               variant="contained"
               disabled={loading}
-              sx={{ mt: 2, mb: 3, py: 2 }}
+              sx={{
+                py: 2,
+                fontSize: '1.1rem',
+                minHeight: '48px'
+              }}
             >
               {loading ? <MedievalLoader size={24} /> : '⚔️ Entrar na Aventura'}
             </Button>
           </Box>
 
           <Box textAlign="center" sx={{
-            pt: 3,
-            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+            pt: 4,
+            borderTop: '1px solid rgba(139, 69, 19, 0.2)',
+            mt: 4
           }}>
-            <Typography sx={{ mb: 1 }}>
+            <Typography sx={{ mb: 2, fontSize: '1.1rem' }}>
               Novo nas terras raras?{' '}
               <Link
                 component="button"
                 onClick={() => navigate('/signup')}
-                sx={{ cursor: 'pointer', fontWeight: 'bold' }}
+                sx={{
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}
               >
-                📜 Pedir Alojamento
+                Pedir Alojamento
               </Link>
             </Typography>
-            <Typography>
+            <Typography sx={{ fontSize: '1rem' }}>
               <Link
                 component="button"
                 onClick={() => navigate('/')}
-                sx={{ cursor: 'pointer', color: '#696969' }}
+                sx={{
+                  cursor: 'pointer',
+                  color: '#696969',
+                  fontSize: '1rem'
+                }}
               >
-                🏕️ Retornar ao Acampamento
+                Retornar ao Acampamento
               </Link>
             </Typography>
           </Box>

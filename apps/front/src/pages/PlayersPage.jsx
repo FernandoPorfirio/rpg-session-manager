@@ -186,21 +186,34 @@ const PlayersPage = () => {
         border: '2px solid rgba(139, 69, 19, 0.3)',
         borderRadius: '16px',
       }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box>
-              <Typography variant="h3" component="h1" sx={{ mb: 1 }}>
-                ⚔️ Registro de Heróis ⚔️
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-                "Aqui residem as lendas de nossos bravos aventureiros"
-              </Typography>
-            </Box>
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          mb: 4,
+          pb: 3,
+          borderBottom: '2px solid rgba(139, 69, 19, 0.2)'
+        }}>
+          <Box>
+            <Typography variant="h3" component="h1" sx={{ mb: 1, color: '#2F4F4F' }}>
+              ⚔️ Registro de Heróis
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ 
+              fontStyle: 'italic',
+              fontSize: '1.1rem'
+            }}>
+              "Aqui residem as lendas de nossos bravos aventureiros"
+            </Typography>
           </Box>
           <Button
             variant="contained"
             onClick={() => openModal('create')}
-            sx={{ px: 3, py: 1.5 }}
+            sx={{ 
+              px: 4, 
+              py: 2,
+              fontSize: '1.1rem',
+              minWidth: 180
+            }}
           >
             🌟 Recrutar Herói
           </Button>
@@ -218,24 +231,55 @@ const PlayersPage = () => {
           </Alert>
         )}
 
-        <Box sx={{ mb: 3, display: 'flex', gap: 2, alignItems: 'center',
+        <Box sx={{ 
+          mb: 4, 
+          display: 'flex', 
+          gap: 2, 
+          alignItems: 'center',
           p: 3,
           background: 'rgba(245, 245, 220, 0.7)',
           border: '1px solid rgba(139, 69, 19, 0.2)',
-          borderRadius: '8px'
+          borderRadius: '12px'
         }}>
           <TextField
             label="Nome do Herói"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            size="small"
-            sx={{ minWidth: 50 }}
+            size="medium"
+            sx={{ 
+              minWidth: 300,
+              '& .MuiInputBase-input': { 
+                py: 1.5,
+                fontSize: '1.1rem'
+              },
+              '& .MuiInputLabel-root': {
+                fontSize: '1.1rem'
+              }
+            }}
           />
-          <Button variant="contained" onClick={handleSearch}>
-            🔎 Buscar
+          <Button 
+            variant="contained" 
+            onClick={handleSearch}
+            sx={{ 
+              px: 3, 
+              py: 1.5,
+              fontSize: '1.1rem',
+              minWidth: 120
+            }}
+          >
+            Buscar
           </Button>
-          <Button variant="outlined" onClick={handleClearSearch}>
-            ✨ Limpar
+          <Button 
+            variant="outlined" 
+            onClick={handleClearSearch}
+            sx={{ 
+              px: 3, 
+              py: 1.5,
+              fontSize: '1.1rem',
+              minWidth: 120
+            }}
+          >
+            Limpar
           </Button>
         </Box>
 
@@ -247,11 +291,21 @@ const PlayersPage = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>👤 Nome do Herói</TableCell>
-                <TableCell>🎭 Classe</TableCell>
-                <TableCell>⭐ Nível</TableCell>
-                <TableCell>📅 Início da Jornada</TableCell>
-                <TableCell>⚡ Ações</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                  Nome do Herói
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                  Classe
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                  Nível
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                  Início da Jornada
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem', textAlign: 'center' }}>
+                  Ações
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -279,37 +333,70 @@ const PlayersPage = () => {
                 </TableRow>
               ) : (
                 players.map((player) => (
-                  <TableRow key={player.id}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell>
+                  <TableRow key={player.id} sx={{ '&:hover': { backgroundColor: 'rgba(184, 134, 11, 0.05)' } }}>
+                    <TableCell sx={{ py: 2, fontSize: '1.1rem', fontWeight: '500' }}>
+                      {player.name}
+                    </TableCell>
+                    <TableCell sx={{ py: 2 }}>
                       <Chip
                         label={player.class_name || 'N/A'}
-                        size="small"
+                        size="medium"
                         variant="outlined"
+                        sx={{ fontSize: '1rem' }}
                       />
                     </TableCell>
-                    <TableCell>{player.level}</TableCell>
-                    <TableCell>{formatDate(player.created_at)}</TableCell>
+                    <TableCell sx={{ py: 2, fontSize: '1.1rem' }}>
+                      {player.level}
+                    </TableCell>
+                    <TableCell sx={{ py: 2, fontSize: '1.1rem' }}>
+                      {formatDate(player.created_at)}
+                    </TableCell>
                     <TableCell>
-                      <IconButton
-                        onClick={() => openModal('view', player)}
-                        title="Ver detalhes"
-                      >
-                        <ViewIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => openModal('edit', player)}
-                        title="Editar"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleDelete(player)}
-                        title="Excluir"
-                        color="error"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton
+                          onClick={() => openModal('view', player)}
+                          title="Ver detalhes"
+                          sx={{ 
+                            p: 1,
+                            borderRadius: '8px',
+                            '&:hover': { 
+                              backgroundColor: 'rgba(184, 134, 11, 0.1)',
+                              transform: 'scale(1.05)'
+                            }
+                          }}
+                        >
+                          <ViewIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => openModal('edit', player)}
+                          title="Editar"
+                          sx={{ 
+                            p: 1,
+                            borderRadius: '8px',
+                            '&:hover': { 
+                              backgroundColor: 'rgba(184, 134, 11, 0.1)',
+                              transform: 'scale(1.05)'
+                            }
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDelete(player)}
+                          title="Excluir"
+                          color="error"
+                          sx={{ 
+                            p: 1,
+                            borderRadius: '8px',
+                            '&:hover': { 
+                              backgroundColor: 'rgba(139, 0, 0, 0.1)',
+                              transform: 'scale(1.05)'
+                            }
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))
@@ -329,44 +416,59 @@ const PlayersPage = () => {
           </Box>
         )}
 
-        <Dialog open={modalOpen} onClose={closeModal} maxWidth="sm" fullWidth>
-          <DialogTitle>
+        <Dialog open={modalOpen} onClose={closeModal} maxWidth="md" fullWidth>
+          <DialogTitle sx={{ px: 4, py: 3 }}>
             {modalMode === 'create' && '🌟 Recrutar Novo Herói'}
             {modalMode === 'edit' && '✏️ Editar Aventureiro'}
             {modalMode === 'view' && '📖 Pergaminho do Herói'}
           </DialogTitle>
-          <DialogContent>
-            <Grid container spacing={2} sx={{ mt: 1 }}>
+          <DialogContent sx={{ px: 4, pb: 2 }}>
+            <Grid container spacing={3} sx={{ mt: 0.5 }}>
               <Grid item xs={12}>
                 <TextField
-                  label="👤 Nome do Herói"
+                  label="Nome do Herói"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   fullWidth
                   required
                   disabled={isReadOnly}
+                  sx={{ 
+                    '& .MuiInputBase-input': { 
+                      py: 2,
+                      fontSize: '1.1rem'
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '1.1rem'
+                    }
+                  }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={8}>
                 <FormControl fullWidth required>
-                  <InputLabel>🎭 Classe</InputLabel>
+                  <InputLabel sx={{ fontSize: '1.1rem' }}>Classe</InputLabel>
                   <Select
                     value={formData.classId}
                     onChange={(e) => setFormData({ ...formData, classId: e.target.value })}
-                    label="🎭 Classe"
+                    label="Classe"
                     disabled={isReadOnly}
+                    sx={{
+                      '& .MuiSelect-select': {
+                        py: 2,
+                        fontSize: '1.1rem'
+                      }
+                    }}
                   >
                     {classes.map((cls) => (
-                      <MenuItem key={cls.id} value={cls.id}>
+                      <MenuItem key={cls.id} value={cls.id} sx={{ fontSize: '1.1rem' }}>
                         {cls.name}
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
-                  label="⭐ Nível"
+                  label="Nível"
                   type="number"
                   value={formData.level}
                   onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 1 })}
@@ -374,39 +476,74 @@ const PlayersPage = () => {
                   required
                   inputProps={{ min: 1, max: 100 }}
                   disabled={isReadOnly}
+                  sx={{ 
+                    '& .MuiInputBase-input': { 
+                      py: 2,
+                      fontSize: '1.1rem'
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '1.1rem'
+                    }
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="📜 História e Lore"
+                  label="História e Lore"
                   value={formData.lore}
                   onChange={(e) => setFormData({ ...formData, lore: e.target.value })}
                   fullWidth
                   multiline
-                  rows={4}
+                  rows={5}
                   disabled={isReadOnly}
                   placeholder="Conte a épica jornada deste herói..."
+                  sx={{ 
+                    '& .MuiInputBase-input': { 
+                      fontSize: '1.1rem',
+                      lineHeight: 1.6
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '1.1rem'
+                    },
+                    '& .MuiOutlinedInput-root': {
+                      '& textarea': {
+                        minHeight: '120px !important'
+                      }
+                    }
+                  }}
                 />
               </Grid>
             </Grid>
           </DialogContent>
-          <DialogActions sx={{ p: 3, gap: 1 }}>
-            <Button onClick={closeModal} variant="outlined">
-              {isReadOnly ? '📖 Fechar Pergaminho' : '❌ Cancelar'}
+          <DialogActions sx={{ px: 4, py: 3, gap: 2, justifyContent: 'space-between' }}>
+            <Button 
+              onClick={closeModal} 
+              variant="outlined"
+              sx={{ 
+                minWidth: 140, 
+                py: 1.5,
+                fontSize: '1.1rem'
+              }}
+            >
+              {isReadOnly ? 'Fechar Pergaminho' : 'Cancelar'}
             </Button>
             {!isReadOnly && (
               <Button
                 onClick={handleSubmit}
                 variant="contained"
                 disabled={loading}
-                sx={{ minWidth: 140 }}
+                sx={{ 
+                  minWidth: 160, 
+                  py: 1.5,
+                  fontSize: '1.1rem'
+                }}
               >
                 {loading ? (
                   <MedievalLoader size={20} />
                 ) : modalMode === 'create' ? (
-                  '🌟 Recrutar Herói'
+                  'Recrutar Herói'
                 ) : (
-                  '💾 Salvar Alterações'
+                  'Salvar Alterações'
                 )}
               </Button>
             )}

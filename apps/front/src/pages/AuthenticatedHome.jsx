@@ -18,20 +18,27 @@ const AuthenticatedHome = () => {
     >
       <Container maxWidth="lg">
         <Paper sx={{
-          p: 4,
+          p: 5,
           mb: 4,
           textAlign: 'center',
           background: 'linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(245, 245, 220, 0.85) 100%)',
           border: '2px solid rgba(139, 69, 19, 0.3)',
           borderRadius: '16px',
         }}>
-          <Typography variant="h2" component="h1" sx={{ mb: 2 }}>
-            ⚔️ Salão do Mestre ⚔️
+          <Typography variant="h2" component="h1" sx={{ mb: 2, color: '#2F4F4F' }}>
+            ⚔️ Salão do Mestre
           </Typography>
-          <Typography variant="h5" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography variant="h5" color="text.secondary" sx={{
+            mb: 2,
+            fontSize: '1.5rem'
+          }}>
             Bem-vindo ao seu reino de aventuras épicas
           </Typography>
-          <Typography variant="body1" sx={{ fontStyle: 'italic', color: '#696969' }}>
+          <Typography variant="body1" sx={{
+            fontStyle: 'italic',
+            color: '#696969',
+            fontSize: '1.1rem'
+          }}>
             "Um verdadeiro mestre cria mundos onde as lendas nascem"
           </Typography>
         </Paper>
@@ -54,23 +61,27 @@ const AuthenticatedHome = () => {
               onClick={handlePlayersClick}
             >
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h4" component="h2" sx={{ mb: 2, color: '#2F4F4F' }}>
-                  🏹 Aventureiros
+                <Typography variant="h4" component="h2" sx={{ mb: 3, color: '#2F4F4F' }}>
+                  Aventureiros
                 </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3, lineHeight: 1.5 }}>
+                <Typography variant="body1" color="text.secondary" sx={{
+                  mb: 4,
+                  lineHeight: 1.6,
+                  fontSize: '1.1rem'
+                }}>
                   Gerencie seus valentes heróis, suas classes místicas, níveis épicos e histórias lendárias
                 </Typography>
                 <Button
                   variant="contained"
                   sx={{
-                    mt: 2,
-                    px: 3,
-                    py: 1,
+                    px: 4,
+                    py: 2,
                     fontSize: '1.1rem',
+                    minHeight: '48px'
                   }}
                   fullWidth
                 >
-                  ⚡ Gerenciar Heróis
+                  Gerenciar Heróis
                 </Button>
               </CardContent>
             </Card>
@@ -88,10 +99,18 @@ const AuthenticatedHome = () => {
               }}
             >
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h5" sx={{ color: '#696969', mb: 2 }}>
+                <Typography variant="h5" sx={{
+                  color: '#696969',
+                  mb: 2,
+                  fontSize: '1.3rem'
+                }}>
                   🏰 Em Construção
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#888', fontStyle: 'italic' }}>
+                <Typography variant="body2" sx={{
+                  color: '#888',
+                  fontStyle: 'italic',
+                  fontSize: '1rem'
+                }}>
                   Novas funcionalidades chegando em breve...
                 </Typography>
               </CardContent>
@@ -110,10 +129,18 @@ const AuthenticatedHome = () => {
               }}
             >
               <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h5" sx={{ color: '#696969', mb: 2 }}>
+                <Typography variant="h5" sx={{
+                  color: '#696969',
+                  mb: 2,
+                  fontSize: '1.3rem'
+                }}>
                   🗡️ Em Construção
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#888', fontStyle: 'italic' }}>
+                <Typography variant="body2" sx={{
+                  color: '#888',
+                  fontStyle: 'italic',
+                  fontSize: '1rem'
+                }}>
                   Mais aventuras por vir...
                 </Typography>
               </CardContent>
