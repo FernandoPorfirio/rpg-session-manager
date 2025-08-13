@@ -1,17 +1,30 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-const Header = ({ isAuthenticated, onLogout, onNavigate, user }) => {
+const Header = ({ isAuthenticated, onLogout, user }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    onLogout()
+    navigate('/')
+  }
+
   return (
     <AppBar position="static" sx={{ bgcolor: 'rgba(163, 187, 152, 0.9)', backdropFilter: 'blur(10px)' }}>
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1, color: 'text.primary' }}>
+        <Typography 
+          variant="h5" 
+          component="div" 
+          sx={{ flexGrow: 1, color: 'text.primary', cursor: 'pointer' }}
+          onClick={() => navigate('/dashboard')}
+        >
           RPG Session Manager {user?.name ? ` - GM ${user.name}!` : ""}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           {isAuthenticated ? (
             <Button 
               variant="outlined" 
-              onClick={onLogout}
+              onClick={handleLogout}
               sx={{ color: 'text.primary', borderColor: 'text.primary' }}
             >
               Sair
@@ -20,14 +33,14 @@ const Header = ({ isAuthenticated, onLogout, onNavigate, user }) => {
             <>
               <Button 
                 variant="outlined" 
-                onClick={() => onNavigate('signin')}
+                onClick={() => navigate('/signin')}
                 sx={{ color: 'text.primary', borderColor: 'text.primary' }}
               >
                 Entrar
               </Button>
               <Button 
                 variant="contained" 
-                onClick={() => onNavigate('signup')}
+                onClick={() => navigate('/signup')}
                 sx={{ bgcolor: 'primary.main', color: 'text.primary' }}
               >
                 Cadastrar
