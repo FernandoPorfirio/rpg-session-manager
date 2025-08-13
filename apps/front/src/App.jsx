@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import PublicHome from './pages/PublicHome'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import AuthenticatedHome from './pages/AuthenticatedHome'
 import PlayersPage from './pages/PlayersPage'
 import Header from './components/Header'
+import MedievalLoader from './components/MedievalLoader'
 import ApiService from './services/api'
 
 const App = () => {
@@ -61,12 +62,16 @@ const App = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
-          background: 'linear-gradient(180deg, #a3bb98 0%, #ffffff 100%)'
+          background: 'linear-gradient(135deg, #F5F5DC 0%, rgba(245, 245, 220, 0.8) 50%, #F5F5DC 100%)',
+          backgroundImage: `
+            radial-gradient(circle at 20% 20%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%)
+          `,
         }}
       >
-        <CircularProgress size={60} />
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Carregando...
+        <MedievalLoader size={60} />
+        <Typography variant="h6" sx={{ mt: 3, color: '#2F4F4F', textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+          Preparando a aventura...
         </Typography>
       </Box>
     );
