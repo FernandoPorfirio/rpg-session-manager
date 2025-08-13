@@ -186,10 +186,10 @@ const PlayersPage = () => {
         border: '2px solid rgba(139, 69, 19, 0.3)',
         borderRadius: '16px',
       }}>
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           mb: 4,
           pb: 3,
           borderBottom: '2px solid rgba(139, 69, 19, 0.2)'
@@ -198,7 +198,7 @@ const PlayersPage = () => {
             <Typography variant="h3" component="h1" sx={{ mb: 1, color: '#2F4F4F' }}>
               ⚔️ Registro de Heróis
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ 
+            <Typography variant="body1" color="text.secondary" sx={{
               fontStyle: 'italic',
               fontSize: '1.1rem'
             }}>
@@ -208,8 +208,8 @@ const PlayersPage = () => {
           <Button
             variant="contained"
             onClick={() => openModal('create')}
-            sx={{ 
-              px: 4, 
+            sx={{
+              px: 4,
               py: 2,
               fontSize: '1.1rem',
               minWidth: 180
@@ -231,10 +231,10 @@ const PlayersPage = () => {
           </Alert>
         )}
 
-        <Box sx={{ 
-          mb: 4, 
-          display: 'flex', 
-          gap: 2, 
+        <Box sx={{
+          mb: 4,
+          display: 'flex',
+          gap: 2,
           alignItems: 'center',
           p: 3,
           background: 'rgba(245, 245, 220, 0.7)',
@@ -246,9 +246,9 @@ const PlayersPage = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             size="medium"
-            sx={{ 
+            sx={{
               minWidth: 300,
-              '& .MuiInputBase-input': { 
+              '& .MuiInputBase-input': {
                 py: 1.5,
                 fontSize: '1.1rem'
               },
@@ -257,11 +257,11 @@ const PlayersPage = () => {
               }
             }}
           />
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             onClick={handleSearch}
-            sx={{ 
-              px: 3, 
+            sx={{
+              px: 3,
               py: 1.5,
               fontSize: '1.1rem',
               minWidth: 120
@@ -269,11 +269,11 @@ const PlayersPage = () => {
           >
             Buscar
           </Button>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             onClick={handleClearSearch}
-            sx={{ 
-              px: 3, 
+            sx={{
+              px: 3,
               py: 1.5,
               fontSize: '1.1rem',
               minWidth: 120
@@ -356,10 +356,10 @@ const PlayersPage = () => {
                         <IconButton
                           onClick={() => openModal('view', player)}
                           title="Ver detalhes"
-                          sx={{ 
+                          sx={{
                             p: 1,
                             borderRadius: '8px',
-                            '&:hover': { 
+                            '&:hover': {
                               backgroundColor: 'rgba(184, 134, 11, 0.1)',
                               transform: 'scale(1.05)'
                             }
@@ -370,10 +370,10 @@ const PlayersPage = () => {
                         <IconButton
                           onClick={() => openModal('edit', player)}
                           title="Editar"
-                          sx={{ 
+                          sx={{
                             p: 1,
                             borderRadius: '8px',
-                            '&:hover': { 
+                            '&:hover': {
                               backgroundColor: 'rgba(184, 134, 11, 0.1)',
                               transform: 'scale(1.05)'
                             }
@@ -385,10 +385,10 @@ const PlayersPage = () => {
                           onClick={() => handleDelete(player)}
                           title="Excluir"
                           color="error"
-                          sx={{ 
+                          sx={{
                             p: 1,
                             borderRadius: '8px',
-                            '&:hover': { 
+                            '&:hover': {
                               backgroundColor: 'rgba(139, 0, 0, 0.1)',
                               transform: 'scale(1.05)'
                             }
@@ -423,17 +423,16 @@ const PlayersPage = () => {
             {modalMode === 'view' && '📖 Pergaminho do Herói'}
           </DialogTitle>
           <DialogContent sx={{ px: 4, pb: 2 }}>
-            <Grid container spacing={3} sx={{ mt: 0.5 }}>
-              <Grid item xs={12}>
+            <Grid container spacing={3} sx={{ mt: 1.5 }}>
+              <Grid item xs={12} >
                 <TextField
                   label="Nome do Herói"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  fullWidth
                   required
                   disabled={isReadOnly}
-                  sx={{ 
-                    '& .MuiInputBase-input': { 
+                  sx={{
+                    '& .MuiInputBase-input': {
                       py: 2,
                       fontSize: '1.1rem'
                     },
@@ -476,8 +475,8 @@ const PlayersPage = () => {
                   required
                   inputProps={{ min: 1, max: 100 }}
                   disabled={isReadOnly}
-                  sx={{ 
-                    '& .MuiInputBase-input': { 
+                  sx={{
+                    '& .MuiInputBase-input': {
                       py: 2,
                       fontSize: '1.1rem'
                     },
@@ -487,6 +486,8 @@ const PlayersPage = () => {
                   }}
                 />
               </Grid>
+            </Grid>
+            <Grid container spacing={3} sx={{ mt: 2.5 }}>
               <Grid item xs={12}>
                 <TextField
                   label="História e Lore"
@@ -494,11 +495,11 @@ const PlayersPage = () => {
                   onChange={(e) => setFormData({ ...formData, lore: e.target.value })}
                   fullWidth
                   multiline
-                  rows={5}
+                  rows={2}
                   disabled={isReadOnly}
                   placeholder="Conte a épica jornada deste herói..."
-                  sx={{ 
-                    '& .MuiInputBase-input': { 
+                  sx={{
+                    '& .MuiInputBase-input': {
                       fontSize: '1.1rem',
                       lineHeight: 1.6
                     },
@@ -516,11 +517,11 @@ const PlayersPage = () => {
             </Grid>
           </DialogContent>
           <DialogActions sx={{ px: 4, py: 3, gap: 2, justifyContent: 'space-between' }}>
-            <Button 
-              onClick={closeModal} 
+            <Button
+              onClick={closeModal}
               variant="outlined"
-              sx={{ 
-                minWidth: 140, 
+              sx={{
+                minWidth: 140,
                 py: 1.5,
                 fontSize: '1.1rem'
               }}
@@ -532,8 +533,8 @@ const PlayersPage = () => {
                 onClick={handleSubmit}
                 variant="contained"
                 disabled={loading}
-                sx={{ 
-                  minWidth: 160, 
+                sx={{
+                  minWidth: 160,
                   py: 1.5,
                   fontSize: '1.1rem'
                 }}
