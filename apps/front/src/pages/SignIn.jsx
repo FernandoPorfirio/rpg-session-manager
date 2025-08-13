@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   Container, 
   Paper, 
@@ -12,7 +13,8 @@ import {
 } from '@mui/material'
 import ApiService from '../services/api'
 
-const SignIn = ({ onNavigate, onSignIn }) => {
+const SignIn = ({ onSignIn }) => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -46,6 +48,8 @@ const SignIn = ({ onNavigate, onSignIn }) => {
         id: tokenPayload.id,
         email: tokenPayload.email
       });
+
+      navigate('/dashboard');
 
     } catch (error) {
       setError(error.message || 'Erro ao fazer login');
@@ -122,7 +126,7 @@ const SignIn = ({ onNavigate, onSignIn }) => {
               Não tem uma conta?{' '}
               <Link
                 component="button"
-                onClick={() => onNavigate('signup')}
+                onClick={() => navigate('/signup')}
                 sx={{ cursor: 'pointer' }}
               >
                 Cadastre-se
@@ -131,7 +135,7 @@ const SignIn = ({ onNavigate, onSignIn }) => {
             <Typography sx={{ mt: 1 }}>
               <Link
                 component="button"
-                onClick={() => onNavigate('home')}
+                onClick={() => navigate('/')}
                 sx={{ cursor: 'pointer' }}
               >
                 Voltar ao início
