@@ -8,6 +8,7 @@ const classRoutes = require("./class/classRoute");
 const playerRoutes = require("./player/playerRoute");
 const guildRoutes = require("./guild/guildRoute");
 const guildMemberRoutes = require("./guildMember/guildMemberRoute");
+const sessionPlayerConfirmationRoutes = require("./sessionPlayerConfirmation/sessionPlayerConfirmationRoute");
 
 router.use("/healthcheck", healthcheckRoutes);
 router.use("/game_master", gameMasterkRoutes);
@@ -16,5 +17,6 @@ router.use("/class", classRoutes);
 router.use("/player", playerRoutes);
 router.use("/guild", guildRoutes);
 router.use("/guild_member", guildMemberRoutes);
+router.use("/session_player_confirmation", sessionPlayerConfirmationRoutes);
 
 module.exports = router;
