@@ -1,6 +1,9 @@
 import { Container, Paper, Typography, Button, Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-const PublicHome = ({ onNavigate }) => {
+const PublicHome = () => {
+  const navigate = useNavigate()
+
   return (
     <Box 
       sx={{ 
@@ -36,7 +39,7 @@ const PublicHome = ({ onNavigate }) => {
             <Button
               variant="contained"
               size="large"
-              onClick={() => onNavigate('signin')}
+              onClick={() => navigate('/signin')}
               sx={{ minWidth: 120 }}
             >
               Entrar
@@ -44,7 +47,7 @@ const PublicHome = ({ onNavigate }) => {
             <Button
               variant="outlined"
               size="large"
-              onClick={() => onNavigate('signup')}
+              onClick={() => navigate('/signup')}
               sx={{ minWidth: 120 }}
             >
               Criar Conta
