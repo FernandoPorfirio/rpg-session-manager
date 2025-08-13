@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   Container, 
   Paper, 
@@ -12,7 +13,8 @@ import {
 } from '@mui/material'
 import ApiService from '../services/api'
 
-const SignUp = ({ onNavigate, onSignUp }) => {
+const SignUp = ({ onSignUp }) => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -76,6 +78,8 @@ const SignUp = ({ onNavigate, onSignUp }) => {
         name: gameMaster.name,
         email: gameMaster.email
       });
+
+      navigate('/dashboard');
 
     } catch (error) {
       setError(error.message || 'Erro ao criar conta');
@@ -173,7 +177,7 @@ const SignUp = ({ onNavigate, onSignUp }) => {
               Já tem uma conta?{' '}
               <Link
                 component="button"
-                onClick={() => onNavigate('signin')}
+                onClick={() => navigate('/signin')}
                 sx={{ cursor: 'pointer' }}
               >
                 Faça login
@@ -182,7 +186,7 @@ const SignUp = ({ onNavigate, onSignUp }) => {
             <Typography sx={{ mt: 1 }}>
               <Link
                 component="button"
-                onClick={() => onNavigate('home')}
+                onClick={() => navigate('/')}
                 sx={{ cursor: 'pointer' }}
               >
                 Voltar ao início
