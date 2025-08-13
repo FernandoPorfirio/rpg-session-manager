@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import AuthenticatedHome from './pages/AuthenticatedHome'
 import PlayersPage from './pages/PlayersPage'
+import SessionsPage from './pages/SessionsPage'
 import Header from './components/Header'
 import MedievalLoader from './components/MedievalLoader'
 import ApiService from './services/api'
@@ -88,37 +89,43 @@ const App = () => {
       )}
       <Routes>
         {/* Rotas públicas */}
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
             isAuthenticated ? <Navigate to="/dashboard" replace /> : <PublicHome />
-          } 
+          }
         />
-        <Route 
-          path="/signin" 
+        <Route
+          path="/signin"
           element={
             isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignIn onSignIn={handleSignIn} />
-          } 
+          }
         />
-        <Route 
-          path="/signup" 
+        <Route
+          path="/signup"
           element={
             isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignUp onSignUp={handleSignUp} />
-          } 
+          }
         />
-        
+
         {/* Rotas protegidas */}
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             isAuthenticated ? <AuthenticatedHome user={user} /> : <Navigate to="/signin" replace />
-          } 
+          }
         />
-        <Route 
-          path="/players" 
+        <Route
+          path="/players"
           element={
             isAuthenticated ? <PlayersPage /> : <Navigate to="/signin" replace />
-          } 
+          }
+        />
+        <Route
+          path="/sessions"
+          element={
+            isAuthenticated ? <SessionsPage /> : <Navigate to="/signin" replace />
+          }
         />
       </Routes>
     </Router>
