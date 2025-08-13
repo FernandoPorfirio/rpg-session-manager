@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Box, CircularProgress, Typography } from '@mui/material'
 import PublicHome from './pages/PublicHome'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import AuthenticatedHome from './pages/AuthenticatedHome'
+import PlayersPage from './pages/PlayersPage'
 import Header from './components/Header'
 import ApiService from './services/api'
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('home')
   const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -20,12 +21,9 @@ const App = () => {
       if (token) {
         try {
           const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-
           const userProfile = await ApiService.getProfile(tokenPayload.id);
-
           setUser(userProfile);
           setIsAuthenticated(true);
-          setCurrentPage('authenticated-home');
         } catch (error) {
           localStorage.removeItem('authToken');
           console.error('Erro ao verificar autenticação:', error);
@@ -38,59 +36,20 @@ const App = () => {
     checkAuthStatus();
   }, []);
 
-  const handleNavigate = (page) => {
-    setCurrentPage(page)
-  }
-
   const handleSignIn = (userData) => {
     setUser(userData)
     setIsAuthenticated(true)
-    setCurrentPage('authenticated-home')
   }
 
   const handleSignUp = (userData) => {
     setUser(userData)
     setIsAuthenticated(true)
-    setCurrentPage('authenticated-home')
   }
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setUser(null)
     setIsAuthenticated(false)
-    setCurrentPage('home')
-  }
-
-  const renderCurrentPage = () => {
-    switch (currentPage) {
-      case 'signin':
-        return (
-          <SignIn
-            onNavigate={handleNavigate}
-            onSignIn={handleSignIn}
-          />
-        )
-      case 'signup':
-        return (
-          <SignUp
-            onNavigate={handleNavigate}
-            onSignUp={handleSignUp}
-          />
-        )
-      case 'authenticated-home':
-        return (
-          <AuthenticatedHome
-            user={user}
-            onLogout={handleLogout}
-          />
-        )
-      default:
-        return (
-          <PublicHome
-            onNavigate={handleNavigate}
-          />
-        )
-    }
   }
 
   if (loading) {
@@ -114,17 +73,50 @@ const App = () => {
   }
 
   return (
-    <div>
-      {currentPage !== 'signin' && currentPage !== 'signup' && (
+    <Router>
+      {isAuthenticated && (
         <Header
           isAuthenticated={isAuthenticated}
           onLogout={handleLogout}
-          onNavigate={handleNavigate}
           user={user}
         />
       )}
-      {renderCurrentPage()}
-    </div>
+      <Routes>
+        {/* Rotas públicas */}
+        <Route 
+          path="/" 
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" replace /> : <PublicHome />
+          } 
+        />
+        <Route 
+          path="/signin" 
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignIn onSignIn={handleSignIn} />
+          } 
+        />
+        <Route 
+          path="/signup" 
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignUp onSignUp={handleSignUp} />
+          } 
+        />
+        
+        {/* Rotas protegidas */}
+        <Route 
+          path="/dashboard" 
+          element={
+            isAuthenticated ? <AuthenticatedHome user={user} /> : <Navigate to="/signin" replace />
+          } 
+        />
+        <Route 
+          path="/players" 
+          element={
+            isAuthenticated ? <PlayersPage /> : <Navigate to="/signin" replace />
+          } 
+        />
+      </Routes>
+    </Router>
   )
 }
 
