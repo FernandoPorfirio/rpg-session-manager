@@ -15,10 +15,27 @@ class ApiService {
     };
 
     const response = await fetch(url, config);
-    const data = await response.json();
+
+    const contentType = response.headers.get("content-type");
+    const hasJsonContent =
+      contentType && contentType.includes("application/json");
+
+    let data = null;
+
+    if (hasJsonContent && response.status !== 204) {
+      const text = await response.text();
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          console.warn("Erro ao parsear JSON:", e);
+          data = null;
+        }
+      }
+    }
 
     if (!response.ok) {
-      throw new Error(data.message || "Erro na requisição");
+      throw new Error(data?.message || "Erro na requisição");
     }
 
     return data;
@@ -103,6 +120,72 @@ class ApiService {
     return await this.request(`/session/${id}`, {
       method: "DELETE",
     });
+  }
+
+  async getConfirmedPlayersBySession(sessionId) {
+    return await this.request(
+      `/session_player_confirmation/session/${sessionId}/players`
+    );
+  }
+
+  async addPlayerToSession(sessionId, playerId) {
+    return await this.request("/session_player_confirmation", {
+      method: "POST",
+      body: JSON.stringify({ sessionId, playerId }),
+    });
+  }
+
+  async removePlayerFromSession(confirmationId) {
+    return await this.request(
+      `/session_player_confirmation/${confirmationId}`,
+      {
+        method: "DELETE",
+      }
+    );
+  }
+
+  async getSessionPlayerConfirmations(filters = {}) {
+    const queryString = new URLSearchParams(filters).toString();
+    return await this.request(`/session_player_confirmation?${queryString}`);
+  }
+
+  async getGuilds() {
+    return await this.request("/guild");
+  }
+
+  async getGuild(id) {
+    return await this.request(`/guild/${id}`);
+  }
+
+  async createGuild(guildData) {
+    return await this.request("/guild", {
+      method: "POST",
+      body: JSON.stringify(guildData),
+    });
+  }
+
+  async updateGuild(id, guildData) {
+    return await this.request(`/guild/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(guildData),
+    });
+  }
+
+  async deleteGuild(id) {
+    return await this.request(`/guild/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async formGuildsAutomatically(sessionId, numberOfGuilds) {
+    return await this.request("/guild/form-automatically", {
+      method: "POST",
+      body: JSON.stringify({ sessionId, numberOfGuilds }),
+    });
+  }
+
+  async getGuildsBySession(sessionId) {
+    return await this.request(`/guild/session/${sessionId}`);
   }
 }
 
