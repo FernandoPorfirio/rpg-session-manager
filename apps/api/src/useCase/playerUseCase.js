@@ -37,8 +37,8 @@ const getById = async ({ id }) => {
   return player;
 };
 
-const getByGameMasterIdWithFilters = async ({ gameMasterId, sessionId, guildId }) => {
-  return await playerService.getByGameMasterIdWithFilters(gameMasterId, { sessionId, guildId });
+const getByGameMasterIdWithFilters = async ({ gameMasterId, sessionId, guildId, name, page, limit }) => {
+  return await playerService.getByGameMasterIdWithFilters(gameMasterId, { sessionId, guildId, name, page, limit });
 };
 
 const deletePlayer = async ({ id }) => {

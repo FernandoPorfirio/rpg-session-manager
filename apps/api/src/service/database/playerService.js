@@ -53,7 +53,7 @@ const getById = async (id) => {
   return result;
 };
 
-const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId } = {}) => {
+const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId, name, page = 1, limit = 10 } = {}) => {
   let query = db("player")
     .select(
       "player.id",
@@ -68,6 +68,10 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId }
     )
     .leftJoin("class", "player.class_id", "class.id")
     .where({ "player.game_master_id": gameMasterId, "player.is_deleted": false });
+
+  if (name) {
+    query = query.where("player.name", "ilike", `%${name}%`);
+  }
 
   if (sessionId) {
     query = query
@@ -95,8 +99,22 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId }
 
   query = query.distinct();
 
-  const result = await query;
-  return result;
+  const countQuery = query.clone().clearSelect().count('* as total');
+  const countResult = await countQuery;
+  const total = parseInt(countResult[0].total);
+
+  const offset = (page - 1) * limit;
+  const result = await query.limit(limit).offset(offset).orderBy('player.created_at', 'desc');
+
+  return {
+    data: result,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total,
+      pages: Math.ceil(total / limit)
+    }
+  };
 };
 
 const softDelete = async (id) => {
