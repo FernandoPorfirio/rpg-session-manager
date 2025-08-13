@@ -41,6 +41,40 @@ class ApiService {
   async getProfile(id) {
     return await this.request(`/game_master/${id}`);
   }
+
+  async getPlayers(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return await this.request(`/player?${queryString}`);
+  }
+
+  async getPlayer(id) {
+    return await this.request(`/player/${id}`);
+  }
+
+  async createPlayer(playerData) {
+    return await this.request('/player', {
+      method: 'POST',
+      body: JSON.stringify(playerData),
+    });
+  }
+
+  async updatePlayer(id, playerData) {
+    return await this.request(`/player/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(playerData),
+    });
+  }
+
+  async deletePlayer(id) {
+    return await this.request(`/player/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Classes
+  async getClasses() {
+    return await this.request('/class');
+  }
 }
 
 export default new ApiService();
