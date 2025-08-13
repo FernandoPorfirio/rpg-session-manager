@@ -31,8 +31,10 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Visibility as ViewIcon,
-  Search as SearchIcon
+  Search as SearchIcon,
+  Person as PersonIcon
 } from '@mui/icons-material';
+import MedievalLoader from '../components/MedievalLoader';
 import api from '../services/api';
 
 const PlayersPage = () => {
@@ -179,17 +181,28 @@ const PlayersPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Paper sx={{ p: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" component="h1">
-            Gerenciar Players
-          </Typography>
+      <Paper sx={{
+        p: 4,
+        border: '2px solid rgba(139, 69, 19, 0.3)',
+        borderRadius: '16px',
+      }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box>
+              <Typography variant="h3" component="h1" sx={{ mb: 1 }}>
+                ⚔️ Registro de Heróis ⚔️
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+                "Aqui residem as lendas de nossos bravos aventureiros"
+              </Typography>
+            </Box>
+          </Box>
           <Button
             variant="contained"
-            startIcon={<AddIcon />}
             onClick={() => openModal('create')}
+            sx={{ px: 3, py: 1.5 }}
           >
-            Novo Player
+            🌟 Recrutar Herói
           </Button>
         </Box>
 
@@ -205,44 +218,63 @@ const PlayersPage = () => {
           </Alert>
         )}
 
-        <Box sx={{ mb: 3, display: 'flex', gap: 2, alignItems: 'center' }}>
+        <Box sx={{ mb: 3, display: 'flex', gap: 2, alignItems: 'center',
+          p: 3,
+          background: 'rgba(245, 245, 220, 0.7)',
+          border: '1px solid rgba(139, 69, 19, 0.2)',
+          borderRadius: '8px'
+        }}>
           <TextField
-            label="Buscar por nome"
+            label="Nome do Herói"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             size="small"
-            sx={{ minWidth: 250 }}
+            sx={{ minWidth: 50 }}
           />
-          <Button variant="contained" onClick={handleSearch} startIcon={<SearchIcon />}>
-            Buscar
+          <Button variant="contained" onClick={handleSearch}>
+            🔎 Buscar
           </Button>
           <Button variant="outlined" onClick={handleClearSearch}>
-            Limpar
+            ✨ Limpar
           </Button>
         </Box>
 
-        <TableContainer>
+        <TableContainer sx={{
+          border: '2px solid rgba(139, 69, 19, 0.3)',
+          borderRadius: '12px',
+          overflow: 'hidden'
+        }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Classe</TableCell>
-                <TableCell>Level</TableCell>
-                <TableCell>Data Criação</TableCell>
-                <TableCell>Ações</TableCell>
+                <TableCell>👤 Nome do Herói</TableCell>
+                <TableCell>🎭 Classe</TableCell>
+                <TableCell>⭐ Nível</TableCell>
+                <TableCell>📅 Início da Jornada</TableCell>
+                <TableCell>⚡ Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    Carregando...
+                  <TableCell colSpan={5} align="center" sx={{ py: 6 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                      <MedievalLoader size={40} />
+                      <Typography variant="body1" sx={{ color: '#696969', fontStyle: 'italic' }}>
+                        Consultando os pergaminhos...
+                      </Typography>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ) : players.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    Nenhum player encontrado
+                  <TableCell colSpan={5} align="center" sx={{ py: 6 }}>
+                    <Typography variant="h6" sx={{ color: '#696969', fontStyle: 'italic' }}>
+                      🏜️ Nenhum herói encontrado nas terras...
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#888', mt: 1 }}>
+                      Que tal recrutar seu primeiro aventureiro?
+                    </Typography>
                   </TableCell>
                 </TableRow>
               ) : (
@@ -299,15 +331,15 @@ const PlayersPage = () => {
 
         <Dialog open={modalOpen} onClose={closeModal} maxWidth="sm" fullWidth>
           <DialogTitle>
-            {modalMode === 'create' && 'Criar Player'}
-            {modalMode === 'edit' && 'Editar Player'}
-            {modalMode === 'view' && 'Detalhes do Player'}
+            {modalMode === 'create' && '🌟 Recrutar Novo Herói'}
+            {modalMode === 'edit' && '✏️ Editar Aventureiro'}
+            {modalMode === 'view' && '📖 Pergaminho do Herói'}
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12}>
                 <TextField
-                  label="Nome"
+                  label="👤 Nome do Herói"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   fullWidth
@@ -317,11 +349,11 @@ const PlayersPage = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth required>
-                  <InputLabel>Classe</InputLabel>
+                  <InputLabel>🎭 Classe</InputLabel>
                   <Select
                     value={formData.classId}
                     onChange={(e) => setFormData({ ...formData, classId: e.target.value })}
-                    label="Classe"
+                    label="🎭 Classe"
                     disabled={isReadOnly}
                   >
                     {classes.map((cls) => (
@@ -334,7 +366,7 @@ const PlayersPage = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Level"
+                  label="⭐ Nível"
                   type="number"
                   value={formData.level}
                   onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 1 })}
@@ -346,24 +378,36 @@ const PlayersPage = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Lore/História"
+                  label="📜 História e Lore"
                   value={formData.lore}
                   onChange={(e) => setFormData({ ...formData, lore: e.target.value })}
                   fullWidth
                   multiline
                   rows={4}
                   disabled={isReadOnly}
+                  placeholder="Conte a épica jornada deste herói..."
                 />
               </Grid>
             </Grid>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={closeModal}>
-              {isReadOnly ? 'Fechar' : 'Cancelar'}
+          <DialogActions sx={{ p: 3, gap: 1 }}>
+            <Button onClick={closeModal} variant="outlined">
+              {isReadOnly ? '📖 Fechar Pergaminho' : '❌ Cancelar'}
             </Button>
             {!isReadOnly && (
-              <Button onClick={handleSubmit} variant="contained" disabled={loading}>
-                {modalMode === 'create' ? 'Criar' : 'Salvar'}
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                disabled={loading}
+                sx={{ minWidth: 140 }}
+              >
+                {loading ? (
+                  <MedievalLoader size={20} />
+                ) : modalMode === 'create' ? (
+                  '🌟 Recrutar Herói'
+                ) : (
+                  '💾 Salvar Alterações'
+                )}
               </Button>
             )}
           </DialogActions>

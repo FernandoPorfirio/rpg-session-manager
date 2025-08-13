@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  Container, 
-  Paper, 
-  TextField, 
-  Button, 
-  Typography, 
-  Box, 
+import {
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Box,
   Alert,
-  Link,
-  CircularProgress
+  Link
 } from '@mui/material'
+import { Login as LoginIcon } from '@mui/icons-material'
+import MedievalLoader from '../components/MedievalLoader'
 import ApiService from '../services/api'
 
 const SignIn = ({ onSignIn }) => {
@@ -59,53 +60,59 @@ const SignIn = ({ onSignIn }) => {
   }
 
   return (
-    <Box 
-      sx={{ 
-        minHeight: '100vh', 
-        background: 'linear-gradient(180deg, #a3bb98 0%, #ffffff 100%)',
+    <Box
+      sx={{
+        minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         py: 4
       }}
     >
       <Container maxWidth="sm">
-        <Paper 
+        <Paper
           elevation={3}
-          sx={{ 
-            p: 4,
-            background: 'rgba(255, 255, 255, 0.9)',
-            backdropFilter: 'blur(10px)'
+          sx={{
+            p: 5,
+            border: '2px solid rgba(139, 69, 19, 0.3)',
+            borderRadius: '16px',
           }}
         >
-          <Typography variant="h4" component="h1" textAlign="center" gutterBottom>
-            Entrar
-          </Typography>
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Typography variant="h3" component="h1" gutterBottom>
+              🏰 Entrada da Taverna
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+              "Mostre suas credenciais, aventureiro"
+            </Typography>
+          </Box>
 
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <TextField
               fullWidth
-              label="Email"
+              label="📧 Email do Mestre"
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
               margin="normal"
               required
+              sx={{ mb: 2 }}
             />
 
             <TextField
               fullWidth
-              label="Senha"
+              label="🔐 Palavra Secreta"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleChange}
               margin="normal"
               required
+              sx={{ mb: 3 }}
             />
 
             {error && (
-              <Alert severity="error" sx={{ mt: 2 }}>
+              <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
                 {error}
               </Alert>
             )}
@@ -115,30 +122,33 @@ const SignIn = ({ onSignIn }) => {
               fullWidth
               variant="contained"
               disabled={loading}
-              sx={{ mt: 3, mb: 2, py: 1.5 }}
+              sx={{ mt: 2, mb: 3, py: 2 }}
             >
-              {loading ? <CircularProgress size={24} /> : 'Entrar'}
+              {loading ? <MedievalLoader size={24} /> : '⚔️ Entrar na Aventura'}
             </Button>
           </Box>
 
-          <Box textAlign="center">
-            <Typography>
-              Não tem uma conta?{' '}
+          <Box textAlign="center" sx={{
+            pt: 3,
+            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+          }}>
+            <Typography sx={{ mb: 1 }}>
+              Novo nas terras raras?{' '}
               <Link
                 component="button"
                 onClick={() => navigate('/signup')}
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', fontWeight: 'bold' }}
               >
-                Cadastre-se
+                📜 Pedir Alojamento
               </Link>
             </Typography>
-            <Typography sx={{ mt: 1 }}>
+            <Typography>
               <Link
                 component="button"
                 onClick={() => navigate('/')}
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', color: '#696969' }}
               >
-                Voltar ao início
+                🏕️ Retornar ao Acampamento
               </Link>
             </Typography>
           </Box>
