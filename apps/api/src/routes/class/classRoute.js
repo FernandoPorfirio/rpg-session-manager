@@ -1,15 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const authMiddleware = require("@middlewares/authMiddleware");
 const classController = require("@controllers/classController");
 
-router.get(
-  "/",
-  classController.getAll
-);
+router.get("/", authMiddleware, classController.getAll);
 
-router.get(
-  "/:id",
-  classController.getById
-);
+router.get("/:id", authMiddleware, classController.getById);
 
 module.exports = router;

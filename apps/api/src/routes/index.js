@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const healthcheckRoutes = require("./healthcheckRoute");
-const gameMasterkRoutes = require("./gameMaster/gameMasterRoute");
+const gameMasterRoutes = require("./gameMaster/gameMasterRoute");
 const sessionRoutes = require("./session/sessionRoute");
 const classRoutes = require("./class/classRoute");
 const playerRoutes = require("./player/playerRoute");
@@ -11,7 +11,7 @@ const guildMemberRoutes = require("./guildMember/guildMemberRoute");
 const sessionPlayerConfirmationRoutes = require("./sessionPlayerConfirmation/sessionPlayerConfirmationRoute");
 
 router.use("/healthcheck", healthcheckRoutes);
-router.use("/game_master", gameMasterkRoutes);
+router.use("/game_master", gameMasterRoutes);
 router.use("/session", sessionRoutes);
 router.use("/class", classRoutes);
 router.use("/player", playerRoutes);
