@@ -6,10 +6,9 @@ import {
   Grid,
   Typography,
   Box,
-  Chip,
   Stack
 } from '@mui/material';
-import { getPlayerClassChip, getPlayerLevelChip } from '../../utils/playerChips';
+import { getPlayerClassChip, getPlayerLevelChip, getRemoveChip } from '../../utils/playerChips';
 
 const PlayerSelectionForm = ({
   players,
@@ -111,25 +110,7 @@ const PlayerSelectionForm = ({
                         {getPlayerClassChip(player.class_name)}
                         {getPlayerLevelChip(player.level)}
                       </Box>
-                      {!isReadOnly && (
-                        <Chip
-                          label="×"
-                          size="small"
-                          onClick={() => handleRemovePlayer(playerId)}
-                          sx={{
-                            backgroundColor: 'rgba(139, 0, 0, 0.08)',
-                            color: '#8B0000',
-                            cursor: 'pointer',
-                            fontFamily: '"VT323", monospace',
-                            '&:hover': {
-                              backgroundColor: 'rgba(139, 0, 0, 0.15)',
-                              transform: 'scale(1.05)'
-                            },
-                            minWidth: '24px',
-                            height: '24px'
-                          }}
-                        />
-                      )}
+                      {!isReadOnly && getRemoveChip(() => handleRemovePlayer(playerId))}
                     </Box>
                   );
                 })}
