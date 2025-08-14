@@ -303,8 +303,6 @@ const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          background: "linear-gradient(135deg, #556B2F 0%, #6B8E23 100%)",
-          color: "#F5DEB3",
           fontFamily: '"VT323", monospace',
           fontSize: "1rem",
           "&.MuiChip-outlined": {
