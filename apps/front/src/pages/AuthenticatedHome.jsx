@@ -1,5 +1,5 @@
 import { Container, Paper, Typography, Box, Grid, Card, CardContent, Button } from '@mui/material'
-import { Person as PersonIcon, Shield as ShieldIcon, Campaign as CampaignIcon } from '@mui/icons-material'
+import { Campaign as CampaignIcon } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 
 const AuthenticatedHome = () => {
