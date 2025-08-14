@@ -70,8 +70,8 @@ const SessionsPage = () => {
 
   const loadPlayers = useCallback(async () => {
     try {
-      const playersData = await api.getPlayers();
-      setPlayers(playersData.filter(player => !player.is_deleted));
+      const playersResponse = await api.getPlayers();
+      setPlayers((playersResponse.data || []).filter(player => !player.is_deleted));
     } catch (err) {
       console.error('Erro ao carregar jogadores:', err);
     }
