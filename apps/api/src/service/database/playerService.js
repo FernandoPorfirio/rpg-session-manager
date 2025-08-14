@@ -57,7 +57,7 @@ const getById = async (id, gameMasterId) => {
   return result;
 };
 
-const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId, name, page = 1, limit = 10 } = {}) => {
+const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId, name, page = 1, limit = 100 } = {}) => {
   let query = db("player")
     .select(
       "player.id",

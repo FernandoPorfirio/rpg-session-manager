@@ -40,13 +40,13 @@ const getByGameMasterIdWithFilters = async ({
 };
 
 const deleteGuildMember = async ({ id, gameMasterId }) => {
-  const result = await guildMemberService.softDelete(id, gameMasterId);
+  const guildMember = await guildMemberService.softDelete(id, gameMasterId);
 
-  if (!result) {
+  if (!guildMember) {
     throw new AppError("Membro da guild não encontrado!", 404);
   }
 
-  return result;
+  return guildMember;
 };
 
 module.exports = {

@@ -13,7 +13,7 @@ const create = async ({ sessionId, playerId, gameMasterId }) => {
   return result[0];
 };
 
-const getById = async (id) => {
+const getById = async (id, gameMasterId) => {
   const result = await db("session_player_confirmation")
     .select(
       "session_player_confirmation.id",
@@ -34,7 +34,8 @@ const getById = async (id) => {
       "session_player_confirmation.id": id,
       "session_player_confirmation.is_deleted": false,
       "session.is_deleted": false,
-      "player.is_deleted": false
+      "player.is_deleted": false,
+      "session_player_confirmation.game_master_id": gameMasterId
     })
     .first();
 
@@ -77,12 +78,13 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, playerId 
   return result;
 };
 
-const getBySessionIdAndPlayerId = async (sessionId, playerId) => {
+const getBySessionIdAndPlayerId = async (sessionId, playerId, gameMasterId) => {
   const result = await db("session_player_confirmation")
     .select("id")
     .where({
       session_id: sessionId,
       player_id: playerId,
+      game_master_id: gameMasterId,
       is_deleted: false
     })
     .first();
@@ -90,7 +92,7 @@ const getBySessionIdAndPlayerId = async (sessionId, playerId) => {
   return result;
 };
 
-const getConfirmedPlayersBySessionId = async (sessionId) => {
+const getConfirmedPlayersBySessionId = async (sessionId, gameMasterId) => {
   const result = await db("session_player_confirmation")
     .select(
       "player.id",
@@ -104,15 +106,16 @@ const getConfirmedPlayersBySessionId = async (sessionId) => {
     .where({
       "session_player_confirmation.session_id": sessionId,
       "session_player_confirmation.is_deleted": false,
-      "player.is_deleted": false
+      "player.is_deleted": false,
+      "session_player_confirmation.game_master_id": gameMasterId
     });
 
   return result;
 };
 
-const softDelete = async (id) => {
+const softDelete = async (id, gameMasterId) => {
   const result = await db("session_player_confirmation")
-    .where({ id, is_deleted: false })
+    .where({ id, is_deleted: false, game_master_id: gameMasterId })
     .update({
       is_deleted: true,
       updated_at: db.fn.now()

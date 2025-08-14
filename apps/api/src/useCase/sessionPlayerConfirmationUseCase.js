@@ -4,17 +4,17 @@ const sessionService = require("@service/database/sessionService");
 const playerService = require("@service/database/playerService");
 
 const create = async ({ sessionId, playerId, gameMasterId }) => {
-  const session = await sessionService.getById(sessionId);
-  if (!session || session.game_master_id !== gameMasterId) {
+  const session = await sessionService.getById(sessionId, gameMasterId);
+  if (!session) {
     throw new AppError("Sessão não encontrada!", 404);
   }
 
-  const player = await playerService.getById(playerId);
-  if (!player || player.game_master_id !== gameMasterId) {
+  const player = await playerService.getById(playerId, gameMasterId);
+  if (!player) {
     throw new AppError("Jogador não encontrado!", 404);
   }
 
-  const existingConfirmation = await sessionPlayerConfirmationService.getBySessionIdAndPlayerId(sessionId, playerId);
+  const existingConfirmation = await sessionPlayerConfirmationService.getBySessionIdAndPlayerId(sessionId, playerId, gameMasterId);
 
   if (existingConfirmation) {
     throw new AppError("Jogador já está confirmado para esta sessão!", 400);
@@ -27,8 +27,8 @@ const create = async ({ sessionId, playerId, gameMasterId }) => {
   });
 };
 
-const getById = async ({ id }) => {
-  const confirmation = await sessionPlayerConfirmationService.getById(id);
+const getById = async ({ id, gameMasterId }) => {
+  const confirmation = await sessionPlayerConfirmationService.getById(id, gameMasterId);
 
   if (!confirmation) {
     throw new AppError("Confirmação não encontrada!", 404);
@@ -42,26 +42,22 @@ const getByGameMasterIdWithFilters = async ({ gameMasterId, sessionId, playerId 
 };
 
 const getConfirmedPlayersBySessionId = async ({ sessionId, gameMasterId }) => {
-  const session = await sessionService.getById(sessionId);
-  if (!session || session.game_master_id !== gameMasterId) {
+  const session = await sessionService.getById(sessionId, gameMasterId);
+  if (!session) {
     throw new AppError("Sessão não encontrada", 404);
   }
 
-  return await sessionPlayerConfirmationService.getConfirmedPlayersBySessionId(sessionId);
+  return await sessionPlayerConfirmationService.getConfirmedPlayersBySessionId(sessionId, gameMasterId);
 };
 
 const deleteConfirmation = async ({ id, gameMasterId }) => {
-  const confirmation = await sessionPlayerConfirmationService.getById(id);
+  const confirmation = await sessionPlayerConfirmationService.getById(id, gameMasterId);
 
   if (!confirmation) {
     throw new AppError("Confirmação não encontrada!", 404);
   }
 
-  if (confirmation.game_master_id !== gameMasterId) {
-    throw new AppError("Confirmação não pertence a este Game Master!", 403);
-  }
-
-  return await sessionPlayerConfirmationService.softDelete(id);
+  return await sessionPlayerConfirmationService.softDelete(id, gameMasterId);
 };
 
 module.exports = {
