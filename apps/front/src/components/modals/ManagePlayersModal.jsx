@@ -50,9 +50,8 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
       );
 
       setAvailablePlayers(availablePlayersData);
-    } catch (err) {
-      setError('Erro ao carregar dados dos jogadores');
-      console.error('Erro ao carregar dados:', err);
+        } catch (err) {
+      setError(err.message || 'Erro ao carregar dados');
     } finally {
       setLoading(false);
     }
@@ -86,7 +85,6 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
       setError(err.message || 'Erro ao adicionar jogador');
-      console.error('Erro ao adicionar jogador:', err);
     } finally {
       setActionLoading(false);
     }
@@ -115,7 +113,6 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
       setError(err.message || 'Erro ao remover jogador');
-      console.error('Erro ao remover jogador:', err);
     } finally {
       setActionLoading(false);
     }
