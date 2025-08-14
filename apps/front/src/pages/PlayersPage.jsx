@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
   Pagination,
   Stack
 } from '@mui/material';
@@ -28,7 +27,7 @@ import {
   tableContainerStyles
 } from '../utils/styleConstants';
 import { PAGINATION_DEFAULTS } from '../utils/constants';
-import { getPlayerClassChip } from '../utils/playerChips';
+import { getPlayerClassChip, getPlayerLevelChip } from '../utils/playerChips';
 import api from '../services/api';
 
 const PlayersPage = () => {
@@ -91,7 +90,7 @@ const PlayersPage = () => {
       const response = await api.getClasses();
       setClasses(response);
     } catch {
-      console.error('Erro ao carregar classes');
+      // Error handling - Classes not loaded
     }
   };
 
@@ -192,8 +191,8 @@ const PlayersPage = () => {
                   <TableCell sx={{ py: 2 }}>
                     {getPlayerClassChip(player.class_name)}
                   </TableCell>
-                  <TableCell sx={tableCellStyles}>
-                    {player.level}
+                  <TableCell sx={{ py: 2 }}>
+                    {getPlayerLevelChip(player.level)}
                   </TableCell>
                   <TableCell sx={tableCellStyles}>
                     {formatDate(player.created_at)}
