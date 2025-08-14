@@ -8,7 +8,7 @@ const create = async (req, res) => {
     name,
     sessionId,
     lore,
-    gameMasterId
+    gameMasterId,
   });
 
   res.status(201).json(guild);
@@ -21,7 +21,7 @@ const update = async (req, res) => {
   const guild = await guildUseCase.update({
     id,
     name,
-    lore
+    lore,
   });
 
   res.status(200).json(guild);
@@ -45,10 +45,37 @@ const deleteGuild = async (req, res) => {
   res.status(204).send();
 };
 
+const formGuildsAutomatically = async (req, res) => {
+  const { sessionId, numberOfGuilds } = req.body;
+  const { id: gameMasterId } = req.gameMaster;
+
+  const result = await guildUseCase.formGuildsAutomatically({
+    sessionId: parseInt(sessionId),
+    numberOfGuilds: parseInt(numberOfGuilds),
+    gameMasterId,
+  });
+
+  res.status(201).json(result);
+};
+
+const getGuildsBySessionId = async (req, res) => {
+  const { sessionId } = req.params;
+  const { id: gameMasterId } = req.gameMaster;
+
+  const guilds = await guildUseCase.getGuildsBySessionId({
+    sessionId: parseInt(sessionId),
+    gameMasterId,
+  });
+
+  res.status(200).json(guilds);
+};
+
 module.exports = {
   create,
   update,
   getById,
   getByGameMasterId,
-  deleteGuild
+  deleteGuild,
+  formGuildsAutomatically,
+  getGuildsBySessionId,
 };

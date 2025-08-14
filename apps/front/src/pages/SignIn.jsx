@@ -8,11 +8,28 @@ import {
   Typography,
   Box,
   Alert,
-  Link
+  Link,
+  Stack
 } from '@mui/material'
 import { Login as LoginIcon } from '@mui/icons-material'
 import MedievalLoader from '../components/MedievalLoader'
+import FormAlert from '../components/ui/FormAlert'
+import useFormValidation from '../hooks/useFormValidation'
 import ApiService from '../services/api'
+
+// Regras de validação para login
+const signInValidationRules = {
+  email: {
+    required: true,
+    requiredMessage: 'Email é obrigatório',
+    email: true,
+    emailMessage: 'Email deve ter um formato válido'
+  },
+  password: {
+    required: true,
+    requiredMessage: 'Senha é obrigatória'
+  }
+};
 
 const SignIn = ({ onSignIn }) => {
   const navigate = useNavigate()
@@ -22,12 +39,33 @@ const SignIn = ({ onSignIn }) => {
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+
+  const {
+    isFormValid,
+    getFieldError,
+    validateSingleField,
+    touchField,
+    clearErrors
+  } = useFormValidation(signInValidationRules)
 
   const handleChange = (e) => {
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     })
+
+    // Limpa erro específico quando usuário começa a digitar
+    if (error) {
+      setError('')
+      setShowAlert(false)
+    }
+  }
+
+  const handleBlur = (fieldName) => {
+    touchField(fieldName)
+    validateSingleField(fieldName, formData[fieldName])
   }
 
   const handleSubmit = async (e) => {
@@ -89,7 +127,7 @@ const SignIn = ({ onSignIn }) => {
             </Typography>
           </Box>
 
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Stack spacing={3} component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <TextField
               fullWidth
               label="Email do Mestre"
@@ -97,10 +135,8 @@ const SignIn = ({ onSignIn }) => {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              margin="normal"
               required
               sx={{
-                mb: 3,
                 '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
@@ -118,10 +154,8 @@ const SignIn = ({ onSignIn }) => {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              margin="normal"
               required
               sx={{
-                mb: 4,
                 '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
@@ -133,7 +167,7 @@ const SignIn = ({ onSignIn }) => {
             />
 
             {error && (
-              <Alert severity="error" sx={{ mb: 3 }}>
+              <Alert severity="error">
                 {error}
               </Alert>
             )}
@@ -151,7 +185,7 @@ const SignIn = ({ onSignIn }) => {
             >
               {loading ? <MedievalLoader size={24} /> : '⚔️ Entrar na Aventura'}
             </Button>
-          </Box>
+          </Stack>
 
           <Box textAlign="center" sx={{
             pt: 4,

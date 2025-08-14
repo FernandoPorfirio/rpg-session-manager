@@ -8,7 +8,8 @@ import {
   Typography,
   Box,
   Alert,
-  Link
+  Link,
+  Stack
 } from '@mui/material'
 import { PersonAdd as PersonAddIcon } from '@mui/icons-material'
 import MedievalLoader from '../components/MedievalLoader'
@@ -111,7 +112,7 @@ const SignUp = ({ onSignUp }) => {
             <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#2F4F4F' }}>
               📜 Registro de Mestre
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ 
+            <Typography variant="body1" color="text.secondary" sx={{
               fontStyle: 'italic',
               fontSize: '1.1rem'
             }}>
@@ -119,18 +120,16 @@ const SignUp = ({ onSignUp }) => {
             </Typography>
           </Box>
 
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Stack spacing={3} component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <TextField
               fullWidth
               label="Nome do Mestre"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              margin="normal"
               required
-              sx={{ 
-                mb: 3,
-                '& .MuiInputBase-input': { 
+              sx={{
+                '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
                 },
@@ -147,11 +146,9 @@ const SignUp = ({ onSignUp }) => {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              margin="normal"
               required
-              sx={{ 
-                mb: 3,
-                '& .MuiInputBase-input': { 
+              sx={{
+                '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
                 },
@@ -168,11 +165,9 @@ const SignUp = ({ onSignUp }) => {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              margin="normal"
               required
-              sx={{ 
-                mb: 3,
-                '& .MuiInputBase-input': { 
+              sx={{
+                '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
                 },
@@ -189,11 +184,9 @@ const SignUp = ({ onSignUp }) => {
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              margin="normal"
               required
-              sx={{ 
-                mb: 4,
-                '& .MuiInputBase-input': { 
+              sx={{
+                '& .MuiInputBase-input': {
                   py: 2,
                   fontSize: '1.1rem'
                 },
@@ -204,7 +197,7 @@ const SignUp = ({ onSignUp }) => {
             />
 
             {error && (
-              <Alert severity="error" sx={{ mb: 3 }}>
+              <Alert severity="error">
                 {error}
               </Alert>
             )}
@@ -214,15 +207,15 @@ const SignUp = ({ onSignUp }) => {
               fullWidth
               variant="contained"
               disabled={loading}
-              sx={{ 
-                py: 2, 
+              sx={{
+                py: 2,
                 fontSize: '1.1rem',
                 minHeight: '48px'
               }}
             >
               {loading ? <MedievalLoader size={24} /> : '🌟 Iniciar Jornada'}
             </Button>
-          </Box>
+          </Stack>
 
           <Box textAlign="center" sx={{
             pt: 4,
@@ -234,8 +227,8 @@ const SignUp = ({ onSignUp }) => {
               <Link
                 component="button"
                 onClick={() => navigate('/signin')}
-                sx={{ 
-                  cursor: 'pointer', 
+                sx={{
+                  cursor: 'pointer',
                   fontWeight: 'bold',
                   fontSize: '1.1rem'
                 }}
@@ -247,8 +240,8 @@ const SignUp = ({ onSignUp }) => {
               <Link
                 component="button"
                 onClick={() => navigate('/')}
-                sx={{ 
-                  cursor: 'pointer', 
+                sx={{
+                  cursor: 'pointer',
                   color: '#696969',
                   fontSize: '1rem'
                 }}

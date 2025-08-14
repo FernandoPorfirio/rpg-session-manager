@@ -30,7 +30,7 @@ const AuthenticatedHome = () => {
           borderRadius: '16px',
         }}>
           <Typography variant="h2" component="h1" sx={{ mb: 2, color: '#2F4F4F' }}>
-            ⚔️ Salão do Mestre
+            ⚔️ Salão do Mestre ⚔️
           </Typography>
           <Typography variant="h5" color="text.secondary" sx={{
             mb: 2,
@@ -47,11 +47,16 @@ const AuthenticatedHome = () => {
           </Typography>
         </Paper>
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid container spacing={4} justifyContent="center" alignItems="stretch">
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{ maxWidth: '400px !important', flex: '0 0 400px' }}>
             <Card
               sx={{
                 height: '100%',
+                minHeight: '320px',
+                width: '100%',
+                maxWidth: '400px',
+                display: 'flex',
+                flexDirection: 'column',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 background: 'linear-gradient(135deg, rgba(245, 245, 220, 0.9) 0%, rgba(245, 245, 220, 0.8) 100%)',
@@ -64,17 +69,27 @@ const AuthenticatedHome = () => {
               }}
               onClick={handlePlayersClick}
             >
-              <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h4" component="h2" sx={{ mb: 3, color: '#2F4F4F' }}>
-                  Aventureiros
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{
-                  mb: 4,
-                  lineHeight: 1.6,
-                  fontSize: '1.1rem'
-                }}>
-                  Gerencie seus valentes heróis, suas classes místicas, níveis épicos e histórias lendárias
-                </Typography>
+              <CardContent sx={{
+                textAlign: 'center',
+                py: 4,
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <Box>
+                  <Typography variant="h4" component="h2" sx={{ mb: 3, color: '#2F4F4F', minHeight: '40px' }}>
+                    Aventureiros
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{
+                    mb: 4,
+                    lineHeight: 1.6,
+                    fontSize: '1.1rem',
+                    minHeight: '80px'
+                  }}>
+                    Gerencie seus valentes heróis, suas classes místicas, níveis épicos e histórias lendárias
+                  </Typography>
+                </Box>
                 <Button
                   variant="contained"
                   sx={{
@@ -91,10 +106,15 @@ const AuthenticatedHome = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{ maxWidth: '400px !important', flex: '0 0 400px' }}>
             <Card
               sx={{
                 height: '100%',
+                minHeight: '320px',
+                width: '100%',
+                maxWidth: '400px',
+                display: 'flex',
+                flexDirection: 'column',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 background: 'linear-gradient(135deg, rgba(245, 245, 220, 0.9) 0%, rgba(245, 245, 220, 0.8) 100%)',
@@ -107,18 +127,28 @@ const AuthenticatedHome = () => {
               }}
               onClick={handleSessionsClick}
             >
-              <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h4" component="h2" sx={{ mb: 3, color: '#2F4F4F' }}>
-                  Sessões Épicas
-                  <CampaignIcon sx={{ fontSize: '2rem', ml: 1, color: '#B8860B' }} />
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{
-                  mb: 4,
-                  lineHeight: 1.6,
-                  fontSize: '1.1rem'
-                }}>
-                  Crie e gerencie suas aventuras épicas, defina níveis máximos e acompanhe o status das campanhas
-                </Typography>
+              <CardContent sx={{
+                textAlign: 'center',
+                py: 4,
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <Box>
+                  <Typography variant="h4" component="h2" sx={{ mb: 3, color: '#2F4F4F', minHeight: '40px' }}>
+                    Sessões Épicas
+                    <CampaignIcon sx={{ fontSize: '2rem', ml: 1, color: '#B8860B' }} />
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{
+                    mb: 4,
+                    lineHeight: 1.6,
+                    fontSize: '1.1rem',
+                    minHeight: '80px'
+                  }}>
+                    Crie e gerencie suas aventuras épicas, defina níveis máximos e acompanhe o status das campanhas
+                  </Typography>
+                </Box>
                 <Button
                   variant="contained"
                   sx={{

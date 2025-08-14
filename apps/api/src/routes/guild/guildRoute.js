@@ -6,6 +6,7 @@ const guildController = require("@controllers/guildController");
 const {
   createGuildSchema,
   updateGuildSchema,
+  formGuildsSchema,
 } = require("./guildValidator");
 const validateBody = require("@middlewares/validateBody");
 
@@ -23,22 +24,23 @@ router.put(
   guildController.update
 );
 
-router.get(
-  "/:id",
+router.get("/:id", authMiddleware, guildController.getById);
+
+router.get("/", authMiddleware, guildController.getByGameMasterId);
+
+router.delete("/:id", authMiddleware, guildController.deleteGuild);
+
+router.post(
+  "/form-automatically",
   authMiddleware,
-  guildController.getById
+  validateBody(formGuildsSchema),
+  guildController.formGuildsAutomatically
 );
 
 router.get(
-  "/",
+  "/session/:sessionId",
   authMiddleware,
-  guildController.getByGameMasterId
-);
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  guildController.deleteGuild
+  guildController.getGuildsBySessionId
 );
 
 module.exports = router;

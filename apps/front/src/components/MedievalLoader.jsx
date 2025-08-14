@@ -9,11 +9,11 @@ const rollAnimation = keyframes`
 `
 
 const glowAnimation = keyframes`
-  0%, 100% { 
+  0%, 100% {
     filter: drop-shadow(0 0 5px rgba(184, 134, 11, 0.5));
     opacity: 1;
   }
-  50% { 
+  50% {
     filter: drop-shadow(0 0 15px rgba(184, 134, 11, 0.8));
     opacity: 0.8;
   }
@@ -29,7 +29,6 @@ const MedievalLoader = ({ size = 40, color = '#B8860B' }) => {
         display: 'inline-block',
       }}
     >
-      {/* Dado D20 estilizado */}
       <Box
         sx={{
           width: '100%',
@@ -54,7 +53,6 @@ const MedievalLoader = ({ size = 40, color = '#B8860B' }) => {
         }}
       />
       
-      {/* Círculo mágico ao redor */}
       <Box
         sx={{
           position: 'absolute',

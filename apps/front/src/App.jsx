@@ -9,6 +9,7 @@ import PlayersPage from './pages/PlayersPage'
 import SessionsPage from './pages/SessionsPage'
 import Header from './components/Header'
 import MedievalLoader from './components/MedievalLoader'
+import { COLORS } from './utils/constants'
 import ApiService from './services/api'
 
 const App = () => {
@@ -71,7 +72,7 @@ const App = () => {
         }}
       >
         <MedievalLoader size={60} />
-        <Typography variant="h6" sx={{ mt: 3, color: '#2F4F4F', textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+        <Typography variant="h6" sx={{ mt: 3, color: COLORS.text, textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
           Preparando a aventura...
         </Typography>
       </Box>
