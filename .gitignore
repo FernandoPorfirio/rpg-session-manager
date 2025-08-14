@@ -7,3 +7,5 @@ node_modules/
 *.sh
 
 package-lock.json
+
+public/
