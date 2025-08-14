@@ -68,6 +68,7 @@ const getByGameMasterIdWithFilters = async (
       "session.name as session_name",
       "player.name as player_name",
       "player.level as player_level",
+      "player.lore as player_lore",
       "class.name as player_class"
     )
     .leftJoin("guild", "guild_member.guild_id", "guild.id")
