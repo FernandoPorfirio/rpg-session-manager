@@ -69,12 +69,8 @@ const SessionsPage = () => {
   });
 
   const loadPlayers = useCallback(async () => {
-    try {
       const playersResponse = await api.getPlayers();
       setPlayers((playersResponse.data || []).filter(player => !player.is_deleted));
-    } catch (err) {
-      console.error('Erro ao carregar jogadores:', err);
-    }
   }, []);
 
   const openModal = useCallback(async (mode, session = null) => {
@@ -126,7 +122,6 @@ const SessionsPage = () => {
       lore: formData.lore
     };
 
-    try {
       let sessionId;
 
       if (modalMode === 'create') {
@@ -135,11 +130,7 @@ const SessionsPage = () => {
 
         if (formData.selectedPlayers && formData.selectedPlayers.length > 0 && sessionId) {
           for (const playerId of formData.selectedPlayers) {
-            try {
               await api.addPlayerToSession(sessionId, parseInt(playerId));
-            } catch (err) {
-              console.error(`Erro ao adicionar jogador ${playerId}:`, err);
-            }
           }
         }
       } else if (modalMode === 'edit') {
@@ -149,9 +140,6 @@ const SessionsPage = () => {
 
       closeModal();
       loadSessions();
-    } catch (error) {
-      console.error('Erro ao salvar sessão:', error);
-    }
   };
 
   const handleDelete = async (session) => {
