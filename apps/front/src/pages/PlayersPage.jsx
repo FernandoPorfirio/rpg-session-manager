@@ -28,6 +28,7 @@ import {
   tableContainerStyles
 } from '../utils/styleConstants';
 import { PAGINATION_DEFAULTS } from '../utils/constants';
+import { getPlayerClassChip } from '../utils/playerChips';
 import api from '../services/api';
 
 const PlayersPage = () => {
@@ -189,12 +190,7 @@ const PlayersPage = () => {
                     {player.name}
                   </TableCell>
                   <TableCell sx={{ py: 2 }}>
-                    <Chip
-                      label={player.class_name || 'N/A'}
-                      size="medium"
-                      variant="outlined"
-                      sx={{ fontSize: '1rem' }}
-                    />
+                    {getPlayerClassChip(player.class_name)}
                   </TableCell>
                   <TableCell sx={tableCellStyles}>
                     {player.level}

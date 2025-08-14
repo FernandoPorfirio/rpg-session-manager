@@ -20,9 +20,10 @@ import {
   Alert,
   Stack
 } from '@mui/material';
-import { DeleteOutline as RemoveIcon } from '@mui/icons-material';
+import { DeleteOutline as RemoveIcon, Close as CloseIcon } from '@mui/icons-material';
 import MedievalLoader from '../MedievalLoader';
 import api from '../../services/api';
+import { getPlayerClassChip, getPlayerLevelChip } from '../../utils/playerChips';
 
 const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
   const [availablePlayers, setAvailablePlayers] = useState([]);
@@ -126,32 +127,6 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
     setSuccess('');
     onClose();
   };
-
-  const getPlayerLevelChip = (level) => (
-    <Chip
-      label={`Nível ${level}`}
-      size="small"
-      sx={{
-        backgroundColor: 'rgba(184, 134, 11, 0.1)',
-        color: '#8B4513',
-        border: '1px solid rgba(184, 134, 11, 0.3)',
-        fontSize: '0.85rem'
-      }}
-    />
-  );
-
-  const getPlayerClassChip = (className) => (
-    <Chip
-      label={className}
-      size="small"
-      sx={{
-        backgroundColor: 'rgba(85, 107, 47, 0.1)',
-        color: '#556B2F',
-        border: '1px solid rgba(85, 107, 47, 0.3)',
-        fontSize: '0.85rem'
-      }}
-    />
-  );
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>

@@ -9,6 +9,7 @@ import {
   Chip,
   Stack
 } from '@mui/material';
+import { getPlayerClassChip, getPlayerLevelChip } from '../../utils/playerChips';
 
 const PlayerSelectionForm = ({
   players,
@@ -67,22 +68,8 @@ const PlayerSelectionForm = ({
                     sx={{ alignItems: 'center', width: '100%' }}
                   >
                     <Typography sx={{ flex: 1 }}>{player.name}</Typography>
-                    <Chip
-                      label={player.class_name}
-                      size="small"
-                      sx={{
-                        backgroundColor: 'rgba(85, 107, 47, 0.1)',
-                        color: '#556B2F'
-                      }}
-                    />
-                    <Chip
-                      label={`Nível ${player.level}`}
-                      size="small"
-                      sx={{
-                        backgroundColor: 'rgba(184, 134, 11, 0.1)',
-                        color: '#8B4513'
-                      }}
-                    />
+                    {getPlayerClassChip(player.class_name)}
+                    {getPlayerLevelChip(player.level)}
                   </Stack>
                 </MenuItem>
               ))}
@@ -100,27 +87,50 @@ const PlayerSelectionForm = ({
               <Typography variant="body2" sx={{ mb: 1, fontWeight: '500' }}>
                 Jogadores selecionados ({selectedPlayers.length}):
               </Typography>
-              <Stack 
-                direction="row" 
-                spacing={1} 
-                sx={{ flexWrap: 'wrap' }}
-              >
+              <Stack spacing={1}>
                 {selectedPlayers.map((playerId) => {
                   const player = players.find(p => p.id.toString() === playerId);
                   if (!player) return null;
                   return (
-                    <Chip
+                    <Box 
                       key={playerId}
-                      label={player.name}
-                      onDelete={() => handleRemovePlayer(playerId)}
                       sx={{
-                        backgroundColor: 'rgba(85, 107, 47, 0.1)',
-                        color: '#556B2F',
-                        '& .MuiChip-deleteIcon': {
-                          color: '#8B0000'
-                        }
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        p: 1,
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                        borderRadius: 1,
+                        border: '1px solid rgba(139, 69, 19, 0.1)'
                       }}
-                    />
+                    >
+                      <Typography variant="body2" sx={{ fontWeight: '500', flex: 1 }}>
+                        {player.name}
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        {getPlayerClassChip(player.class_name)}
+                        {getPlayerLevelChip(player.level)}
+                      </Box>
+                      {!isReadOnly && (
+                        <Chip
+                          label="×"
+                          size="small"
+                          onClick={() => handleRemovePlayer(playerId)}
+                          sx={{
+                            backgroundColor: 'rgba(139, 0, 0, 0.08)',
+                            color: '#8B0000',
+                            cursor: 'pointer',
+                            fontFamily: '"VT323", monospace',
+                            '&:hover': {
+                              backgroundColor: 'rgba(139, 0, 0, 0.15)',
+                              transform: 'scale(1.05)'
+                            },
+                            minWidth: '24px',
+                            height: '24px'
+                          }}
+                        />
+                      )}
+                    </Box>
                   );
                 })}
               </Stack>
