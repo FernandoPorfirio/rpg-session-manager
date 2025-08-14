@@ -9,7 +9,7 @@ const create = async (req, res) => {
     classId,
     level,
     lore,
-    gameMasterId
+    gameMasterId,
   });
 
   res.status(201).json(player);
@@ -18,13 +18,15 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const { name, classId, level, lore } = req.body;
+  const { id: gameMasterId } = req.gameMaster;
 
   const player = await playerUseCase.update({
     id,
     name,
     classId,
     level,
-    lore
+    lore,
+    gameMasterId,
   });
 
   res.status(200).json(player);
@@ -32,7 +34,8 @@ const update = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const player = await playerUseCase.getById({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  const player = await playerUseCase.getById({ id, gameMasterId });
   res.status(200).json(player);
 };
 
@@ -46,7 +49,7 @@ const getByGameMasterIdWithFilters = async (req, res) => {
     guildId: guildId ? parseInt(guildId) : null,
     name,
     page: parseInt(page),
-    limit: parseInt(limit)
+    limit: parseInt(limit),
   });
 
   res.status(200).json(result);
@@ -54,7 +57,8 @@ const getByGameMasterIdWithFilters = async (req, res) => {
 
 const deletePlayer = async (req, res) => {
   const { id } = req.params;
-  await playerUseCase.deletePlayer({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  await playerUseCase.deletePlayer({ id, gameMasterId });
   res.status(204).send();
 };
 
@@ -63,5 +67,5 @@ module.exports = {
   update,
   getById,
   getByGameMasterIdWithFilters,
-  deletePlayer
+  deletePlayer,
 };

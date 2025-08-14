@@ -15,11 +15,11 @@ const login = async (req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   const gameMaster = await gameMasterUseCase.getById({ id });
-  res.status(201).json(gameMaster);
-}
+  res.status(200).json(gameMaster);
+};
 
 module.exports = {
   create,
   login,
-  getById
+  getById,
 };

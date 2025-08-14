@@ -17,11 +17,13 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const { name, lore } = req.body;
+  const { id: gameMasterId } = req.gameMaster;
 
   const guild = await guildUseCase.update({
     id,
     name,
     lore,
+    gameMasterId,
   });
 
   res.status(200).json(guild);
@@ -29,7 +31,8 @@ const update = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const guild = await guildUseCase.getById({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  const guild = await guildUseCase.getById({ id, gameMasterId });
   res.status(200).json(guild);
 };
 
@@ -41,7 +44,8 @@ const getByGameMasterId = async (req, res) => {
 
 const deleteGuild = async (req, res) => {
   const { id } = req.params;
-  await guildUseCase.deleteGuild({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  await guildUseCase.deleteGuild({ id, gameMasterId });
   res.status(204).send();
 };
 

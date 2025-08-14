@@ -8,7 +8,7 @@ const create = async (req, res) => {
     name,
     maxLevel,
     gameMasterId,
-    lore
+    lore,
   });
 
   res.status(201).json(session);
@@ -17,13 +17,15 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const { name, maxLevel, sessionStatusId, lore } = req.body;
+  const { id: gameMasterId } = req.gameMaster;
 
   const session = await sessionUseCase.update({
     id,
     name,
     maxLevel,
     sessionStatusId,
-    lore
+    lore,
+    gameMasterId,
   });
 
   res.status(200).json(session);
@@ -31,7 +33,8 @@ const update = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const session = await sessionUseCase.getById({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  const session = await sessionUseCase.getById({ id, gameMasterId });
   res.status(200).json(session);
 };
 
@@ -43,7 +46,8 @@ const getByGameMasterId = async (req, res) => {
 
 const deleteSession = async (req, res) => {
   const { id } = req.params;
-  await sessionUseCase.deleteSession({ id });
+  const { id: gameMasterId } = req.gameMaster;
+  await sessionUseCase.deleteSession({ id, gameMasterId });
   res.status(204).send();
 };
 
@@ -52,5 +56,5 @@ module.exports = {
   update,
   getById,
   getByGameMasterId,
-  deleteSession
+  deleteSession,
 };
