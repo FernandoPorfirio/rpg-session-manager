@@ -27,8 +27,7 @@ class ApiService {
       if (text) {
         try {
           data = JSON.parse(text);
-        } catch (e) {
-          console.warn("Erro ao parsear JSON:", e);
+        } catch {
           data = null;
         }
       }
