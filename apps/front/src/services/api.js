@@ -88,12 +88,10 @@ class ApiService {
     });
   }
 
-  // Classes
   async getClasses() {
     return await this.request("/class");
   }
 
-  // Sessions
   async getSessions() {
     return await this.request("/session");
   }

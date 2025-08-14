@@ -36,7 +36,6 @@ const SessionsPage = () => {
   const [loading, setLoading] = useState(false);
   const [players, setPlayers] = useState([]);
 
-  // Estados para modais adicionais
   const [managePlayersModalOpen, setManagePlayersModalOpen] = useState(false);
   const [generateGuildsModalOpen, setGenerateGuildsModalOpen] = useState(false);
   const [viewGuildsModalOpen, setViewGuildsModalOpen] = useState(false);

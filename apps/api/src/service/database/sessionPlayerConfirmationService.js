@@ -65,12 +65,10 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, playerId 
       "player.is_deleted": false
     });
 
-  // Filtrar por sessionId se fornecido
   if (sessionId) {
     query = query.where("session_player_confirmation.session_id", sessionId);
   }
 
-  // Filtrar por playerId se fornecido
   if (playerId) {
     query = query.where("session_player_confirmation.player_id", playerId);
   }

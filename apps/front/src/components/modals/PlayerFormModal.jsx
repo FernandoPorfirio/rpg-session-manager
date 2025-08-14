@@ -15,7 +15,6 @@ import {
   modalButtonStyles
 } from '../../utils/styleConstants';
 
-// Regras de validação para o formulário de players
 const playerValidationRules = {
   name: {
     required: true,
@@ -51,16 +50,13 @@ const PlayerFormModal = ({
   classes
 }) => {
   const {
-    errors,
     isFormValid,
     clearErrors,
     getFieldError,
-    hasFieldError,
     validateSingleField,
     touchField
   } = useFormValidation(playerValidationRules);
 
-  // Limpa erros quando o modal é fechado
   useEffect(() => {
     if (!open) {
       clearErrors();

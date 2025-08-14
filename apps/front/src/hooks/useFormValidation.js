@@ -1,28 +1,14 @@
 import { useState, useCallback } from "react";
 
-/**
- * Hook personalizado para validação de formulários
- * Fornece estado de erros, validação e métodos auxiliares
- *
- * @param {Object} validationRules - Regras de validação por campo
- * @returns {Object} Estado e métodos de validação
- */
 export const useFormValidation = (validationRules = {}) => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  /**
-   * Valida um campo específico
-   * @param {string} fieldName - Nome do campo
-   * @param {any} value - Valor do campo
-   * @returns {string|null} Mensagem de erro ou null se válido
-   */
   const validateField = useCallback(
     (fieldName, value) => {
       const rule = validationRules[fieldName];
       if (!rule) return null;
 
-      // Validação de campo obrigatório
       if (rule.required) {
         if (
           value === undefined ||
@@ -34,7 +20,6 @@ export const useFormValidation = (validationRules = {}) => {
         }
       }
 
-      // Validação de tamanho mínimo
       if (rule.minLength && typeof value === "string") {
         if (value.length < rule.minLength) {
           return (
@@ -43,7 +28,6 @@ export const useFormValidation = (validationRules = {}) => {
         }
       }
 
-      // Validação de tamanho máximo
       if (rule.maxLength && typeof value === "string") {
         if (value.length > rule.maxLength) {
           return (
@@ -52,21 +36,18 @@ export const useFormValidation = (validationRules = {}) => {
         }
       }
 
-      // Validação de valor mínimo
       if (rule.min !== undefined && typeof value === "number") {
         if (value < rule.min) {
           return rule.minMessage || `Valor mínimo: ${rule.min}`;
         }
       }
 
-      // Validação de valor máximo
       if (rule.max !== undefined && typeof value === "number") {
         if (value > rule.max) {
           return rule.maxMessage || `Valor máximo: ${rule.max}`;
         }
       }
 
-      // Validação de email
       if (rule.email && value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) {
@@ -74,7 +55,6 @@ export const useFormValidation = (validationRules = {}) => {
         }
       }
 
-      // Validação customizada
       if (rule.custom && typeof rule.custom === "function") {
         const customError = rule.custom(value);
         if (customError) {
@@ -87,11 +67,6 @@ export const useFormValidation = (validationRules = {}) => {
     [validationRules]
   );
 
-  /**
-   * Valida todos os campos do formulário
-   * @param {Object} formData - Dados do formulário
-   * @returns {Object} Objeto com erros encontrados
-   */
   const validateForm = useCallback(
     (formData) => {
       const newErrors = {};
@@ -108,11 +83,6 @@ export const useFormValidation = (validationRules = {}) => {
     [validateField, validationRules]
   );
 
-  /**
-   * Valida um campo e atualiza o estado de erros
-   * @param {string} fieldName - Nome do campo
-   * @param {any} value - Valor do campo
-   */
   const validateSingleField = useCallback(
     (fieldName, value) => {
       const error = validateField(fieldName, value);
@@ -125,10 +95,6 @@ export const useFormValidation = (validationRules = {}) => {
     [validateField]
   );
 
-  /**
-   * Marca um campo como tocado
-   * @param {string} fieldName - Nome do campo
-   */
   const touchField = useCallback((fieldName) => {
     setTouched((prev) => ({
       ...prev,
@@ -136,17 +102,11 @@ export const useFormValidation = (validationRules = {}) => {
     }));
   }, []);
 
-  /**
-   * Verifica se o formulário é válido
-   * @param {Object} formData - Dados do formulário
-   * @returns {boolean} True se válido
-   */
   const isFormValid = useCallback(
     (formData) => {
       const formErrors = validateForm(formData);
       setErrors(formErrors);
 
-      // Marca todos os campos como tocados para mostrar erros
       const newTouched = {};
       Object.keys(validationRules).forEach((fieldName) => {
         newTouched[fieldName] = true;
@@ -158,19 +118,11 @@ export const useFormValidation = (validationRules = {}) => {
     [validateForm, validationRules]
   );
 
-  /**
-   * Limpa todos os erros e campos tocados
-   */
   const clearErrors = useCallback(() => {
     setErrors({});
     setTouched({});
   }, []);
 
-  /**
-   * Obtém o erro de um campo se ele foi tocado
-   * @param {string} fieldName - Nome do campo
-   * @returns {string|undefined} Mensagem de erro ou undefined
-   */
   const getFieldError = useCallback(
     (fieldName) => {
       return touched[fieldName] ? errors[fieldName] : undefined;
@@ -178,11 +130,6 @@ export const useFormValidation = (validationRules = {}) => {
     [errors, touched]
   );
 
-  /**
-   * Verifica se um campo tem erro
-   * @param {string} fieldName - Nome do campo
-   * @returns {boolean} True se tem erro
-   */
   const hasFieldError = useCallback(
     (fieldName) => {
       return !!(touched[fieldName] && errors[fieldName]);

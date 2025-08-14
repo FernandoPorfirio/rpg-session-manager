@@ -85,14 +85,14 @@ const PlayersPage = () => {
     setLoading(false);
   }, [page, nameFilter]);
 
-  const loadClasses = useCallback(async () => {
+  const loadClasses = async () => {
     try {
       const response = await api.getClasses();
       setClasses(response);
     } catch {
       console.error('Erro ao carregar classes');
     }
-  }, []);
+  };
 
   useEffect(() => {
     loadPlayers();
@@ -100,7 +100,7 @@ const PlayersPage = () => {
 
   useEffect(() => {
     loadClasses();
-  }, [loadClasses]);
+  }, []);
 
   const handleSearch = () => {
     setPage(1);

@@ -16,7 +16,6 @@ import FormAlert from '../ui/FormAlert';
 import useFormValidation from '../../hooks/useFormValidation';
 import { formatDateTime } from '../../utils/dateUtils';
 
-// Regras de validação para o formulário de sessões
 const sessionValidationRules = {
   name: {
     required: true,
@@ -55,7 +54,6 @@ const SessionFormModal = ({
     touchField
   } = useFormValidation(sessionValidationRules);
 
-  // Limpa erros quando o modal é fechado
   useEffect(() => {
     if (!open) {
       clearErrors();

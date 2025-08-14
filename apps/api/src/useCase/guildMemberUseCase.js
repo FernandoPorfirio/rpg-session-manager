@@ -2,9 +2,8 @@ const AppError = require("@errors/AppError");
 const guildMemberService = require("@service/database/guildMemberService");
 
 const create = async ({ guildId, playerId, gameMasterId }) => {
-  // Verifica se já existe um relacionamento entre esse player e essa guild
   const existingMember = await guildMemberService.getByGuildIdAndPlayerId(guildId, playerId);
-  
+
   if (existingMember) {
     throw new AppError("Player já é membro desta guild!", 400);
   }

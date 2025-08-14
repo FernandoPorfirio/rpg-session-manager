@@ -16,19 +16,19 @@ const create = async ({ guildId, playerId, gameMasterId }) => {
 const getById = async (id) => {
   const result = await db("guild_member")
     .select(
-      "guild_member.id", 
-      "guild_member.guild_id", 
-      "guild_member.player_id", 
-      "guild_member.game_master_id", 
-      "guild_member.created_at", 
+      "guild_member.id",
+      "guild_member.guild_id",
+      "guild_member.player_id",
+      "guild_member.game_master_id",
+      "guild_member.created_at",
       "guild_member.updated_at",
       "guild.name as guild_name",
       "player.name as player_name"
     )
     .leftJoin("guild", "guild_member.guild_id", "guild.id")
     .leftJoin("player", "guild_member.player_id", "player.id")
-    .where({ 
-      "guild_member.id": id, 
+    .where({
+      "guild_member.id": id,
       "guild_member.is_deleted": false,
       "guild.is_deleted": false,
       "player.is_deleted": false
@@ -41,11 +41,11 @@ const getById = async (id) => {
 const getByGameMasterIdWithFilters = async (gameMasterId, { guildId, sessionId } = {}) => {
   let query = db("guild_member")
     .select(
-      "guild_member.id", 
-      "guild_member.guild_id", 
-      "guild_member.player_id", 
-      "guild_member.game_master_id", 
-      "guild_member.created_at", 
+      "guild_member.id",
+      "guild_member.guild_id",
+      "guild_member.player_id",
+      "guild_member.game_master_id",
+      "guild_member.created_at",
       "guild_member.updated_at",
       "guild.name as guild_name",
       "guild.session_id",
@@ -58,20 +58,18 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { guildId, sessionId }
     .leftJoin("session", "guild.session_id", "session.id")
     .leftJoin("player", "guild_member.player_id", "player.id")
     .leftJoin("class", "player.class_id", "class.id")
-    .where({ 
-      "guild_member.game_master_id": gameMasterId, 
+    .where({
+      "guild_member.game_master_id": gameMasterId,
       "guild_member.is_deleted": false,
       "guild.is_deleted": false,
       "session.is_deleted": false,
       "player.is_deleted": false
     });
 
-  // Filtrar por guildId se fornecido
   if (guildId) {
     query = query.where("guild_member.guild_id", guildId);
   }
 
-  // Filtrar por sessionId se fornecido
   if (sessionId) {
     query = query.where("guild.session_id", sessionId);
   }
@@ -83,8 +81,8 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { guildId, sessionId }
 const getByGuildIdAndPlayerId = async (guildId, playerId) => {
   const result = await db("guild_member")
     .select("id")
-    .where({ 
-      guild_id: guildId, 
+    .where({
+      guild_id: guildId,
       player_id: playerId,
       is_deleted: false
     })

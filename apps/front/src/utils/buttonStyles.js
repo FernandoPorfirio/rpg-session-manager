@@ -1,6 +1,5 @@
 import { COLORS, BORDER_RADIUS } from "./constants";
 
-// Base styles para botões de ação
 const createButtonBaseStyles = () => ({
   width: 40,
   height: 40,
@@ -29,7 +28,6 @@ const createButtonBaseStyles = () => ({
   },
 });
 
-// Função para criar estilos de botão por tipo
 export const createButtonStyles = (color, hoverColor) => ({
   ...createButtonBaseStyles(),
   background: `linear-gradient(135deg, ${color}1A 0%, ${color}0D 100%)`,
@@ -44,7 +42,6 @@ export const createButtonStyles = (color, hoverColor) => ({
   },
 });
 
-// Estilos pré-definidos para ações comuns
 export const actionButtonStyles = {
   view: createButtonStyles(COLORS.view, COLORS.text),
   edit: createButtonStyles(COLORS.edit, COLORS.primaryDark),
@@ -54,14 +51,12 @@ export const actionButtonStyles = {
   viewGuilds: createButtonStyles("#800080", "#9932CC"),
 };
 
-// Estilos para hover em linhas de tabela
 export const tableRowHoverStyles = {
   "&:hover": {
     backgroundColor: `${COLORS.secondary}0D`, // 5% opacity
   },
 };
 
-// Estilos para containers de tabela
 export const tableContainerStyles = {
   border: `2px solid ${COLORS.primary}4D`,
   borderRadius: BORDER_RADIUS.large,

@@ -10,15 +10,17 @@ const Header = ({ isAuthenticated, onLogout, user }) => {
   }
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'rgba(163, 187, 152, 0.9)', backdropFilter: 'blur(10px)' }}>
+    <AppBar position="static">
       <Toolbar>
         <Typography
           variant="h4"
           component="div"
           sx={{
             flexGrow: 1,
+            justifyContent: 'flex-start',
             color: '#F5DEB3',
-            cursor: 'pointer',
+            fontSize: '2rem',
+            textTransform: 'none',
             textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
             '&:hover': {
               color: '#B8860B',

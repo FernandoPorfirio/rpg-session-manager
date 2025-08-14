@@ -27,9 +27,8 @@ const App = () => {
           const userProfile = await ApiService.getProfile(tokenPayload.id);
           setUser(userProfile);
           setIsAuthenticated(true);
-        } catch (error) {
+        } catch {
           localStorage.removeItem('authToken');
-          console.error('Erro ao verificar autenticação:', error);
         }
       }
 

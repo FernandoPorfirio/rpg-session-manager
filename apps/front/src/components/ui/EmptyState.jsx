@@ -8,7 +8,7 @@ const EmptyState = ({ loading, isEmpty, colSpan, emptyMessage, emptySubtitle, lo
         <TableCell colSpan={colSpan} align="center" sx={{ py: 6 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
             <MedievalLoader size={40} />
-            <Typography variant="body1" sx={{ color: '#696969', fontStyle: 'italic' }}>
+            <Typography variant="body1" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
               {loadingMessage}
             </Typography>
           </Box>
@@ -21,11 +21,11 @@ const EmptyState = ({ loading, isEmpty, colSpan, emptyMessage, emptySubtitle, lo
     return (
       <TableRow>
         <TableCell colSpan={colSpan} align="center" sx={{ py: 6 }}>
-          <Typography variant="h6" sx={{ color: '#696969', fontStyle: 'italic' }}>
+          <Typography variant="h6" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
             {emptyMessage}
           </Typography>
           {emptySubtitle && (
-            <Typography variant="body2" sx={{ color: '#888', mt: 1 }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1, opacity: 0.8 }}>
               {emptySubtitle}
             </Typography>
           )}

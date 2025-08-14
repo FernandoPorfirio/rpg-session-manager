@@ -11,25 +11,8 @@ import {
   Link,
   Stack
 } from '@mui/material'
-import { Login as LoginIcon } from '@mui/icons-material'
 import MedievalLoader from '../components/MedievalLoader'
-import FormAlert from '../components/ui/FormAlert'
-import useFormValidation from '../hooks/useFormValidation'
 import ApiService from '../services/api'
-
-// Regras de validação para login
-const signInValidationRules = {
-  email: {
-    required: true,
-    requiredMessage: 'Email é obrigatório',
-    email: true,
-    emailMessage: 'Email deve ter um formato válido'
-  },
-  password: {
-    required: true,
-    requiredMessage: 'Senha é obrigatória'
-  }
-};
 
 const SignIn = ({ onSignIn }) => {
   const navigate = useNavigate()
@@ -39,15 +22,6 @@ const SignIn = ({ onSignIn }) => {
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showAlert, setShowAlert] = useState(false)
-
-  const {
-    isFormValid,
-    getFieldError,
-    validateSingleField,
-    touchField,
-    clearErrors
-  } = useFormValidation(signInValidationRules)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -56,16 +30,9 @@ const SignIn = ({ onSignIn }) => {
       [name]: value
     })
 
-    // Limpa erro específico quando usuário começa a digitar
     if (error) {
       setError('')
-      setShowAlert(false)
     }
-  }
-
-  const handleBlur = (fieldName) => {
-    touchField(fieldName)
-    validateSingleField(fieldName, formData[fieldName])
   }
 
   const handleSubmit = async (e) => {
@@ -116,7 +83,7 @@ const SignIn = ({ onSignIn }) => {
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#2F4F4F' }}>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ color: 'text.primary' }}>
               🏰 Entrada da Taverna
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{

@@ -11,7 +11,6 @@ import {
   Link,
   Stack
 } from '@mui/material'
-import { PersonAdd as PersonAddIcon } from '@mui/icons-material'
 import MedievalLoader from '../components/MedievalLoader'
 import ApiService from '../services/api'
 
@@ -109,7 +108,7 @@ const SignUp = ({ onSignUp }) => {
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#2F4F4F' }}>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ color: 'text.primary' }}>
               📜 Registro de Mestre
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{
