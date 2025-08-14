@@ -8,9 +8,9 @@ const gameMasterService = require("@service/database/gameMasterService");
 const create = async ({ name, email, password }) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const databaseGameMaster = await gameMasterService.getByEmail(email);
+  const gameMaster = await gameMasterService.getByEmail(email);
 
-  if (databaseGameMaster) {
+  if (gameMaster) {
     throw new AppError("Email já cadastrado!", 400);
   }
 
@@ -38,7 +38,7 @@ const getToken = async ({ email, password }) => {
     { id: gameMaster.id, email: gameMaster.email },
     process.env.JWT_SECRET,
     {
-      expiresIn: "1h",
+      expiresIn: "12h",
     }
   );
 
