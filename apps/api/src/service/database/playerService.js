@@ -69,7 +69,7 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId, 
     .leftJoin("class", "player.class_id", "class.id")
     .where({ "player.game_master_id": gameMasterId, "player.is_deleted": false });
 
-  if (name) {
+  if (name !== undefined && name !== "") {
     query = query.where("player.name", "ilike", `%${name}%`);
   }
 
