@@ -41,10 +41,10 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
       const confirmedPlayersData = await api.getConfirmedPlayersBySession(session.id);
       setConfirmedPlayers(confirmedPlayersData);
 
-      const allPlayersData = await api.getPlayers();
+      const allPlayersResponse = await api.getPlayers();
 
       const confirmedPlayerIds = confirmedPlayersData.map(cp => cp.player_id);
-      const availablePlayersData = allPlayersData.filter(player =>
+      const availablePlayersData = (allPlayersResponse.data || []).filter(player =>
         !confirmedPlayerIds.includes(player.id) && !player.is_deleted
       );
 
