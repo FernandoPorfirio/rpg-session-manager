@@ -17,8 +17,7 @@ class ApiService {
     const response = await fetch(url, config);
 
     const contentType = response.headers.get("content-type");
-    const hasJsonContent =
-      contentType && contentType.includes("application/json");
+    const hasJsonContent = contentType?.includes("application/json");
 
     let data = null;
 
