@@ -2,7 +2,10 @@ const AppError = require("@errors/AppError");
 const guildMemberService = require("@service/database/guildMemberService");
 
 const create = async ({ guildId, playerId, gameMasterId }) => {
-  const existingMember = await guildMemberService.getByGuildIdAndPlayerId(guildId, playerId);
+  const existingMember = await guildMemberService.getByGuildIdAndPlayerId(
+    guildId,
+    playerId
+  );
 
   if (existingMember) {
     throw new AppError("Player já é membro desta guild!", 400);
@@ -11,12 +14,12 @@ const create = async ({ guildId, playerId, gameMasterId }) => {
   return await guildMemberService.create({
     guildId,
     playerId,
-    gameMasterId
+    gameMasterId,
   });
 };
 
-const getById = async ({ id }) => {
-  const guildMember = await guildMemberService.getById(id);
+const getById = async ({ id, gameMasterId }) => {
+  const guildMember = await guildMemberService.getById(id, gameMasterId);
 
   if (!guildMember) {
     throw new AppError("Membro da guild não encontrado!", 404);
@@ -25,23 +28,30 @@ const getById = async ({ id }) => {
   return guildMember;
 };
 
-const getByGameMasterIdWithFilters = async ({ gameMasterId, guildId, sessionId }) => {
-  return await guildMemberService.getByGameMasterIdWithFilters(gameMasterId, { guildId, sessionId });
+const getByGameMasterIdWithFilters = async ({
+  gameMasterId,
+  guildId,
+  sessionId,
+}) => {
+  return await guildMemberService.getByGameMasterIdWithFilters(gameMasterId, {
+    guildId,
+    sessionId,
+  });
 };
 
-const deleteGuildMember = async ({ id }) => {
-  const guildMember = await guildMemberService.getById(id);
+const deleteGuildMember = async ({ id, gameMasterId }) => {
+  const result = await guildMemberService.softDelete(id, gameMasterId);
 
-  if (!guildMember) {
+  if (!result) {
     throw new AppError("Membro da guild não encontrado!", 404);
   }
 
-  return await guildMemberService.softDelete(id);
+  return result;
 };
 
 module.exports = {
   create,
   getById,
   getByGameMasterIdWithFilters,
-  deleteGuildMember
+  deleteGuildMember,
 };

@@ -7,28 +7,19 @@ const create = async ({ name, classId, level, lore, gameMasterId }) => {
     classId,
     level,
     lore,
-    gameMasterId
+    gameMasterId,
   });
 };
 
-const update = async ({ id, name, classId, level, lore }) => {
-  const currentPlayer = await playerService.getById(id);
-
-  if (!currentPlayer) {
-    throw new AppError("Player não encontrado!", 404);
-  }
-
-  return await playerService.update({
+const update = async ({ id, name, classId, level, lore, gameMasterId }) => {
+  const player = await playerService.update({
     id,
     name,
     classId,
     level,
-    lore
+    lore,
+    gameMasterId,
   });
-};
-
-const getById = async ({ id }) => {
-  const player = await playerService.getById(id);
 
   if (!player) {
     throw new AppError("Player não encontrado!", 404);
@@ -37,18 +28,41 @@ const getById = async ({ id }) => {
   return player;
 };
 
-const getByGameMasterIdWithFilters = async ({ gameMasterId, sessionId, guildId, name, page, limit }) => {
-  return await playerService.getByGameMasterIdWithFilters(gameMasterId, { sessionId, guildId, name, page, limit });
-};
-
-const deletePlayer = async ({ id }) => {
-  const player = await playerService.getById(id);
+const getById = async ({ id, gameMasterId }) => {
+  const player = await playerService.getById(id, gameMasterId);
 
   if (!player) {
     throw new AppError("Player não encontrado!", 404);
   }
 
-  return await playerService.softDelete(id);
+  return player;
+};
+
+const getByGameMasterIdWithFilters = async ({
+  gameMasterId,
+  sessionId,
+  guildId,
+  name,
+  page,
+  limit,
+}) => {
+  return await playerService.getByGameMasterIdWithFilters(gameMasterId, {
+    sessionId,
+    guildId,
+    name,
+    page,
+    limit,
+  });
+};
+
+const deletePlayer = async ({ id, gameMasterId }) => {
+  const result = await playerService.softDelete(id, gameMasterId);
+
+  if (!result) {
+    throw new AppError("Player não encontrado!", 404);
+  }
+
+  return result;
 };
 
 module.exports = {
@@ -56,5 +70,5 @@ module.exports = {
   update,
   getById,
   getByGameMasterIdWithFilters,
-  deletePlayer
+  deletePlayer,
 };

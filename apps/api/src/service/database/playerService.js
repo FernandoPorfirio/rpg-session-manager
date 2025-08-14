@@ -15,7 +15,7 @@ const create = async ({ name, classId, level = 1, lore, gameMasterId }) => {
   return result[0];
 };
 
-const update = async ({ id, name, classId, level, lore }) => {
+const update = async ({ id, name, classId, level, lore, gameMasterId }) => {
   const updateData = {
     updated_at: db.fn.now()
   };
@@ -26,14 +26,14 @@ const update = async ({ id, name, classId, level, lore }) => {
   if (lore !== undefined) updateData.lore = lore;
 
   const result = await db("player")
-    .where({ id, is_deleted: false })
+    .where({ id, game_master_id: gameMasterId, is_deleted: false })
     .update(updateData)
     .returning(["id", "name", "class_id", "level", "lore", "game_master_id", "created_at", "updated_at"]);
 
   return result[0];
 };
 
-const getById = async (id) => {
+const getById = async (id, gameMasterId) => {
   const result = await db("player")
     .select(
       "player.id",
@@ -47,7 +47,11 @@ const getById = async (id) => {
       "class.name as class_name"
     )
     .leftJoin("class", "player.class_id", "class.id")
-    .where({ "player.id": id, "player.is_deleted": false })
+    .where({
+      "player.id": id,
+      "player.game_master_id": gameMasterId,
+      "player.is_deleted": false
+    })
     .first();
 
   return result;
@@ -117,9 +121,9 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { sessionId, guildId, 
   };
 };
 
-const softDelete = async (id) => {
+const softDelete = async (id, gameMasterId) => {
   const result = await db("player")
-    .where({ id, is_deleted: false })
+    .where({ id, game_master_id: gameMasterId, is_deleted: false })
     .update({
       is_deleted: true,
       updated_at: db.fn.now()

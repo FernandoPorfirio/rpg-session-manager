@@ -12,22 +12,23 @@ const create = async ({ name, sessionId, lore, gameMasterId }) => {
   });
 };
 
-const update = async ({ id, name, lore }) => {
-  const currentGuild = await guildService.getById(id);
-
-  if (!currentGuild) {
-    throw new AppError("Guild não encontrada!", 404);
-  }
-
-  return await guildService.update({
+const update = async ({ id, name, lore, gameMasterId }) => {
+  const guild = await guildService.update({
     id,
     name,
     lore,
+    gameMasterId,
   });
+
+  if (!guild) {
+    throw new AppError("Guild não encontrada!", 404);
+  }
+
+  return guild;
 };
 
-const getById = async ({ id }) => {
-  const guild = await guildService.getById(id);
+const getById = async ({ id, gameMasterId }) => {
+  const guild = await guildService.getById(id, gameMasterId);
 
   if (!guild) {
     throw new AppError("Guild não encontrada!", 404);
@@ -40,14 +41,14 @@ const getByGameMasterId = async ({ gameMasterId }) => {
   return await guildService.getByGameMasterId(gameMasterId);
 };
 
-const deleteGuild = async ({ id }) => {
-  const guild = await guildService.getById(id);
+const deleteGuild = async ({ id, gameMasterId }) => {
+  const result = await guildService.softDelete(id, gameMasterId);
 
-  if (!guild) {
+  if (!result) {
     throw new AppError("Guild não encontrada!", 404);
   }
 
-  return await guildService.softDelete(id);
+  return result;
 };
 
 const formGuildsAutomatically = async ({

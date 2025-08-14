@@ -6,14 +6,32 @@ const create = async ({ guildId, playerId, gameMasterId }) => {
       guild_id: guildId,
       player_id: playerId,
       game_master_id: gameMasterId,
-      updated_at: db.fn.now()
+      updated_at: db.fn.now(),
     })
-    .returning(["id", "guild_id", "player_id", "game_master_id", "created_at", "updated_at"]);
+    .returning([
+      "id",
+      "guild_id",
+      "player_id",
+      "game_master_id",
+      "created_at",
+      "updated_at",
+    ]);
 
   return result[0];
 };
 
-const getById = async (id) => {
+const getById = async (id, gameMasterId) => {
+  const whereClause = {
+    "guild_member.id": id,
+    "guild_member.is_deleted": false,
+    "guild.is_deleted": false,
+    "player.is_deleted": false,
+  };
+
+  if (gameMasterId !== undefined) {
+    whereClause["guild_member.game_master_id"] = gameMasterId;
+  }
+
   const result = await db("guild_member")
     .select(
       "guild_member.id",
@@ -27,18 +45,16 @@ const getById = async (id) => {
     )
     .leftJoin("guild", "guild_member.guild_id", "guild.id")
     .leftJoin("player", "guild_member.player_id", "player.id")
-    .where({
-      "guild_member.id": id,
-      "guild_member.is_deleted": false,
-      "guild.is_deleted": false,
-      "player.is_deleted": false
-    })
+    .where(whereClause)
     .first();
 
   return result;
 };
 
-const getByGameMasterIdWithFilters = async (gameMasterId, { guildId, sessionId } = {}) => {
+const getByGameMasterIdWithFilters = async (
+  gameMasterId,
+  { guildId, sessionId } = {}
+) => {
   let query = db("guild_member")
     .select(
       "guild_member.id",
@@ -63,7 +79,7 @@ const getByGameMasterIdWithFilters = async (gameMasterId, { guildId, sessionId }
       "guild_member.is_deleted": false,
       "guild.is_deleted": false,
       "session.is_deleted": false,
-      "player.is_deleted": false
+      "player.is_deleted": false,
     });
 
   if (guildId) {
@@ -84,19 +100,19 @@ const getByGuildIdAndPlayerId = async (guildId, playerId) => {
     .where({
       guild_id: guildId,
       player_id: playerId,
-      is_deleted: false
+      is_deleted: false,
     })
     .first();
 
   return result;
 };
 
-const softDelete = async (id) => {
+const softDelete = async (id, gameMasterId) => {
   const result = await db("guild_member")
-    .where({ id, is_deleted: false })
+    .where({ id, game_master_id: gameMasterId, is_deleted: false })
     .update({
       is_deleted: true,
-      updated_at: db.fn.now()
+      updated_at: db.fn.now(),
     })
     .returning(["id"]);
 

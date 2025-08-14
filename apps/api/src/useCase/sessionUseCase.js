@@ -7,12 +7,19 @@ const create = async ({ name, maxLevel, gameMasterId, lore }) => {
     maxLevel,
     gameMasterId,
     lore,
-    sessionStatusId: 1
+    sessionStatusId: 1,
   });
 };
 
-const update = async ({ id, name, maxLevel, sessionStatusId, lore }) => {
-  const currentSession = await sessionService.getById(id);
+const update = async ({
+  id,
+  name,
+  maxLevel,
+  sessionStatusId,
+  lore,
+  gameMasterId,
+}) => {
+  const currentSession = await sessionService.getById(id, gameMasterId);
 
   if (!currentSession) {
     throw new AppError("Session não encontrada!", 404);
@@ -22,11 +29,11 @@ const update = async ({ id, name, maxLevel, sessionStatusId, lore }) => {
   let finishedAt;
 
   if (sessionStatusId !== undefined) {
-    if (sessionStatusId === 2 && currentSession.sessionStatusId !== 2) {
+    if (sessionStatusId === 2 && currentSession.session_status_id !== 2) {
       startedAt = new Date();
     }
 
-    if (sessionStatusId === 3 && currentSession.sessionStatusId !== 3) {
+    if (sessionStatusId === 3 && currentSession.session_status_id !== 3) {
       finishedAt = new Date();
     }
   }
@@ -38,12 +45,13 @@ const update = async ({ id, name, maxLevel, sessionStatusId, lore }) => {
     sessionStatusId,
     lore,
     startedAt,
-    finishedAt
+    finishedAt,
+    gameMasterId,
   });
 };
 
-const getById = async ({ id }) => {
-  const session = await sessionService.getById(id);
+const getById = async ({ id, gameMasterId }) => {
+  const session = await sessionService.getById(id, gameMasterId);
 
   if (!session) {
     throw new AppError("Session não encontrada!", 404);
@@ -56,14 +64,14 @@ const getByGameMasterId = async ({ gameMasterId }) => {
   return await sessionService.getByGameMasterId(gameMasterId);
 };
 
-const deleteSession = async ({ id }) => {
-  const session = await sessionService.getById(id);
+const deleteSession = async ({ id, gameMasterId }) => {
+  const result = await sessionService.softDelete(id, gameMasterId);
 
-  if (!session) {
+  if (!result) {
     throw new AppError("Session não encontrada!", 404);
   }
 
-  return await sessionService.softDelete(id);
+  return result;
 };
 
 module.exports = {
@@ -71,5 +79,5 @@ module.exports = {
   update,
   getById,
   getByGameMasterId,
-  deleteSession
+  deleteSession,
 };
