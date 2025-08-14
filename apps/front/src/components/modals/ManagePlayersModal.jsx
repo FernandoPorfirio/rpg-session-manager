@@ -42,7 +42,7 @@ const ManagePlayersModal = ({ open, onClose, session, onPlayersUpdated }) => {
       const confirmedPlayersData = await api.getConfirmedPlayersBySession(session.id);
       setConfirmedPlayers(confirmedPlayersData);
 
-      const allPlayersResponse = await api.getPlayers();
+      const allPlayersResponse = await api.getPlayers({ limit: 1000 });
 
       const confirmedPlayerIds = confirmedPlayersData.map(cp => cp.player_id);
       const availablePlayersData = (allPlayersResponse.data || []).filter(player =>

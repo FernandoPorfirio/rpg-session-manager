@@ -69,7 +69,7 @@ const SessionsPage = () => {
   });
 
   const loadPlayers = useCallback(async () => {
-      const playersResponse = await api.getPlayers();
+      const playersResponse = await api.getPlayers({ limit: 1000 });
       setPlayers((playersResponse.data || []).filter(player => !player.is_deleted));
   }, []);
 

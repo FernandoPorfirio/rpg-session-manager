@@ -85,19 +85,23 @@ const PlayerFormFields = ({
           label="Nível"
           type="number"
           value={formData.level}
-          onChange={(e) => handleFieldChange('level', parseInt(e.target.value) || 1)}
+          onChange={(e) => {
+            const value = parseInt(e.target.value) || 1;
+            const clampedValue = Math.min(Math.max(value, 1), 100);
+            handleFieldChange('level', clampedValue);
+          }}
           onBlur={() => handleFieldBlur('level')}
           fullWidth
           required
-          inputProps={{ 
-            min: 1, 
+          inputProps={{
+            min: 1,
             max: 100,
             'aria-describedby': errors.level ? 'level-error' : undefined,
             'aria-invalid': !!errors.level
           }}
           disabled={isReadOnly}
           error={!!errors.level}
-          helperText={errors.level}
+          helperText={errors.level || 'Nível entre 1 e 100'}
           sx={inputStyles}
         />
       </Grid>

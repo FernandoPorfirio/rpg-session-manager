@@ -59,7 +59,18 @@ const SessionFormFields = ({
           label="Nível Máximo"
           type="number"
           value={formData.maxLevel}
-          onChange={(e) => handleFieldChange('maxLevel', e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === '' || value === null) {
+              handleFieldChange('maxLevel', '');
+            } else {
+              const numValue = parseInt(value);
+              if (!isNaN(numValue)) {
+                const clampedValue = Math.min(Math.max(numValue, 1), 100);
+                handleFieldChange('maxLevel', clampedValue);
+              }
+            }
+          }}
           onBlur={() => handleFieldBlur('maxLevel')}
           fullWidth
           inputProps={{
@@ -71,7 +82,7 @@ const SessionFormFields = ({
           disabled={isReadOnly}
           placeholder="Opcional - deixe vazio para sem limite"
           error={!!errors.maxLevel}
-          helperText={errors.maxLevel}
+          helperText={errors.maxLevel || 'Nível entre 1 e 100 (opcional)'}
           sx={inputStyles}
         />
       </Grid>
