@@ -23,7 +23,7 @@ import {
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import MedievalLoader from '../MedievalLoader';
 import api from '../../services/api';
-import { getPlayerClassChip, getPlayerLevelChip } from '../../utils/playerChips';
+import { getPlayerClassChip, getPlayerLevelChip, getClassDistributionChips, getGuildMembersChip, getGuildStrengthChip } from '../../utils/playerChips';
 
 const ViewGuildsModal = ({ open, onClose, session }) => {
   const [guilds, setGuilds] = useState([]);
@@ -40,8 +40,7 @@ const ViewGuildsModal = ({ open, onClose, session }) => {
       const guildsData = await api.getGuildsBySession(session.id);
       setGuilds(guildsData);
     } catch (err) {
-      setError('Erro ao carregar guildas da sessão');
-      console.error('Erro ao carregar guildas:', err);
+      setError(err.message || 'Erro ao carregar guildas');
     } finally {
       setLoading(false);
     }
@@ -200,26 +199,11 @@ const ViewGuildsModal = ({ open, onClose, session }) => {
                         </Typography>
 
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                          <Chip
-                            label={`${guild.members?.length || 0} membros`}
-                            size="small"
-                            sx={{
-                              backgroundColor: 'rgba(128, 0, 128, 0.1)',
-                              color: '#800080'
-                            }}
-                          />
+                          {getGuildMembersChip(guild.members?.length || 0)}
 
-                          {guild.members && guild.members.length > 0 && (
-                            <Chip
-                              label={`Força: ${stats.averageLevel}`}
-                              size="small"
-                              sx={{
-                                backgroundColor: `${getGuildStrengthColor(stats.averageLevel)}20`,
-                                color: getGuildStrengthColor(stats.averageLevel),
-                                border: `1px solid ${getGuildStrengthColor(stats.averageLevel)}40`
-                              }}
-                            />
-                          )}
+                          {guild.members && guild.members.length > 0 &&
+                            getGuildStrengthChip(stats.averageLevel, getGuildStrengthColor)
+                          }
                         </Box>
                       </Box>
                     </AccordionSummary>
@@ -246,15 +230,7 @@ const ViewGuildsModal = ({ open, onClose, session }) => {
                                   Distribuição de Classes:
                                 </Typography>
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                  {Object.entries(stats.classDistribution).map(([className, count]) => (
-                                    <Chip
-                                      key={className}
-                                      label={`${className}: ${count}`}
-                                      size="small"
-                                      variant="outlined"
-                                      sx={{ fontSize: '0.8rem' }}
-                                    />
-                                  ))}
+                                  {getClassDistributionChips(stats.classDistribution)}
                                 </Box>
                               </Grid>
                             </Grid>
