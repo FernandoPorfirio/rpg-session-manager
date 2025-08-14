@@ -50,9 +50,9 @@ export const getPlayerClassChip = (className) => {
       label={`${config.emoji} ${className}`}
       size="small"
       sx={{
-        backgroundColor: config.backgroundColor,
-        color: config.color,
-        border: `1px solid ${config.borderColor}`,
+        backgroundColor: `${config.backgroundColor} !important`,
+        color: `${config.color} !important`,
+        border: `1px solid ${config.borderColor} !important`,
         fontSize: '0.85rem',
         fontWeight: '500',
         fontFamily: '"VT323", monospace',
@@ -67,7 +67,7 @@ export const getPlayerClassChip = (className) => {
           justifyContent: 'center'
         },
         '&:hover': {
-          backgroundColor: config.backgroundColor.replace('0.08', '0.12'),
+          backgroundColor: `${config.backgroundColor.replace('0.08', '0.12')} !important`,
           transform: 'scale(1.02)',
           boxShadow: `0 2px 8px ${config.backgroundColor.replace('0.08', '0.15')}`
         },
@@ -85,9 +85,9 @@ export const getPlayerLevelChip = (level) => {
       label={`Nível ${level}`}
       size="small"
       sx={{
-        backgroundColor: LEVEL_CONFIG.backgroundColor,
-        color: LEVEL_CONFIG.color,
-        border: `1px solid ${LEVEL_CONFIG.borderColor}`,
+        backgroundColor: `${LEVEL_CONFIG.backgroundColor} !important`,
+        color: `${LEVEL_CONFIG.color} !important`,
+        border: `1px solid ${LEVEL_CONFIG.borderColor} !important`,
         fontSize: '0.85rem',
         fontWeight: '500',
         fontFamily: '"VT323", monospace',
@@ -102,9 +102,125 @@ export const getPlayerLevelChip = (level) => {
           justifyContent: 'center'
         },
         '&:hover': {
-          backgroundColor: LEVEL_CONFIG.backgroundColor.replace('0.08', '0.12'),
+          backgroundColor: `${LEVEL_CONFIG.backgroundColor.replace('0.08', '0.12')} !important`,
           transform: 'scale(1.02)',
           boxShadow: `0 2px 8px ${LEVEL_CONFIG.backgroundColor.replace('0.08', '0.15')}`
+        },
+        transition: 'all 0.2s ease-in-out'
+      }}
+    />
+  );
+};
+
+export const getClassDistributionChips = (classDistribution) => {
+  return Object.entries(classDistribution).map(([className, count]) => {
+    const config = CLASS_CONFIG[className] || DEFAULT_CLASS_CONFIG;
+
+    return (
+      <Chip
+        key={className}
+        label={`${className}: ${count}`}
+        size="small"
+        sx={{
+          backgroundColor: `${config.backgroundColor} !important`,
+          color: `${config.color} !important`,
+          border: `1px solid ${config.borderColor} !important`,
+          fontSize: '0.8rem',
+          fontWeight: '500',
+          fontFamily: '"VT323", monospace',
+          minWidth: '80px',
+          height: '24px',
+          borderRadius: '12px',
+          '& .MuiChip-label': {
+            paddingLeft: '8px',
+            paddingRight: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          },
+          '&:hover': {
+            backgroundColor: `${config.backgroundColor.replace('0.08', '0.12')} !important`,
+            transform: 'scale(1.02)',
+            boxShadow: `0 2px 6px ${config.backgroundColor.replace('0.08', '0.15')}`
+          },
+          transition: 'all 0.2s ease-in-out'
+        }}
+      />
+    );
+  });
+};
+
+export const getRemoveChip = (onClick) => {
+  return (
+    <Chip
+      label="×"
+      size="small"
+      onClick={onClick}
+      sx={{
+        backgroundColor: 'rgba(139, 0, 0, 0.08) !important',
+        color: '#8B0000 !important',
+        cursor: 'pointer',
+        fontFamily: '"VT323", monospace',
+        '&:hover': {
+          backgroundColor: 'rgba(139, 0, 0, 0.15) !important',
+          transform: 'scale(1.05)'
+        },
+        minWidth: '24px',
+        height: '24px',
+        transition: 'all 0.2s ease-in-out'
+      }}
+    />
+  );
+};
+
+export const getGuildMembersChip = (memberCount) => {
+  return (
+    <Chip
+      label={`${memberCount} membros`}
+      size="small"
+      sx={{
+        backgroundColor: 'rgba(128, 0, 128, 0.1) !important',
+        color: '#800080 !important',
+        fontSize: '0.85rem',
+        fontWeight: '500',
+        fontFamily: '"VT323", monospace',
+        minWidth: '80px',
+        height: '24px',
+        borderRadius: '12px',
+        '& .MuiChip-label': {
+          paddingLeft: '8px',
+          paddingRight: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        },
+        transition: 'all 0.2s ease-in-out'
+      }}
+    />
+  );
+};
+
+export const getGuildStrengthChip = (averageLevel, getGuildStrengthColor) => {
+  return (
+    <Chip
+      label={`Força: ${averageLevel}`}
+      size="small"
+      sx={{
+        backgroundColor: `${getGuildStrengthColor(averageLevel)}20 !important`,
+        color: `${getGuildStrengthColor(averageLevel)} !important`,
+        border: `1px solid ${getGuildStrengthColor(averageLevel)}40 !important`,
+        fontSize: '0.85rem',
+        fontWeight: '500',
+        fontFamily: '"VT323", monospace',
+        minWidth: '80px',
+        height: '24px',
+        borderRadius: '12px',
+        '& .MuiChip-label': {
+          paddingLeft: '8px',
+          paddingRight: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         },
         transition: 'all 0.2s ease-in-out'
       }}
