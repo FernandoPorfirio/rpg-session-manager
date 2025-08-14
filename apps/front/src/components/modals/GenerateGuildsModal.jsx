@@ -37,17 +37,16 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
       setSuccess('');
 
       const result = await api.formGuildsAutomatically(session.id, parseInt(numberOfGuilds));
-      
+
       setGeneratedGuilds(result.guilds || []);
       setSuccess(`${result.guilds?.length || 0} guildas foram criadas e balanceadas automaticamente!`);
-      
+
       if (onGuildsGenerated) {
         onGuildsGenerated();
       }
 
     } catch (err) {
       setError(err.message || 'Erro ao gerar guildas automaticamente');
-      console.error('Erro ao gerar guildas:', err);
     } finally {
       setLoading(false);
     }
@@ -63,8 +62,8 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ 
-        px: 4, 
+      <DialogTitle sx={{
+        px: 4,
         py: 3,
         background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 140, 0, 0.05) 100%)',
         borderBottom: '2px solid rgba(255, 140, 0, 0.2)'
@@ -87,7 +86,7 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
             {error}
           </Alert>
         )}
-        
+
         {success && (
           <Alert severity="success" sx={{ mb: 3 }}>
             {success}
@@ -96,13 +95,13 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
 
         <Box sx={{ mb: 4 }}>
           <Typography variant="body1" sx={{ mb: 3, color: '#2F4F4F', lineHeight: 1.6 }}>
-            Esta funcionalidade criará automaticamente as guildas para a sessão, 
-            distribuindo os jogadores confirmados de forma balanceada considerando 
+            Esta funcionalidade criará automaticamente as guildas para a sessão,
+            distribuindo os jogadores confirmados de forma balanceada considerando
             níveis e classes.
           </Typography>
 
-          <Paper sx={{ 
-            p: 3, 
+          <Paper sx={{
+            p: 3,
             backgroundColor: 'rgba(255, 140, 0, 0.05)',
             border: '1px solid rgba(255, 140, 0, 0.2)',
             borderRadius: 2
@@ -112,25 +111,25 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
             </Typography>
             <List dense>
               <ListItem sx={{ pl: 0 }}>
-                <ListItemText 
+                <ListItemText
                   primary="• Analisa todos os jogadores confirmados na sessão"
                   primaryTypographyProps={{ fontSize: '1rem', color: '#2F4F4F' }}
                 />
               </ListItem>
               <ListItem sx={{ pl: 0 }}>
-                <ListItemText 
+                <ListItemText
                   primary="• Distribui os jogadores de forma equilibrada entre as guildas"
                   primaryTypographyProps={{ fontSize: '1rem', color: '#2F4F4F' }}
                 />
               </ListItem>
               <ListItem sx={{ pl: 0 }}>
-                <ListItemText 
+                <ListItemText
                   primary="• Considera níveis e classes para um balanceamento justo"
                   primaryTypographyProps={{ fontSize: '1rem', color: '#2F4F4F' }}
                 />
               </ListItem>
               <ListItem sx={{ pl: 0 }}>
-                <ListItemText 
+                <ListItemText
                   primary="• Gera nomes automáticos para as guildas criadas"
                   primaryTypographyProps={{ fontSize: '1rem', color: '#2F4F4F' }}
                 />
@@ -155,8 +154,8 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
         </Box>
 
         {generatedGuilds.length > 0 && (
-          <Paper sx={{ 
-            p: 3, 
+          <Paper sx={{
+            p: 3,
             backgroundColor: 'rgba(85, 107, 47, 0.05)',
             border: '1px solid rgba(85, 107, 47, 0.2)',
             borderRadius: 2
@@ -166,7 +165,7 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
             </Typography>
             <List>
               {generatedGuilds.map((guild, index) => (
-                <ListItem key={guild.id || index} sx={{ 
+                <ListItem key={guild.id || index} sx={{
                   backgroundColor: 'rgba(245, 245, 220, 0.3)',
                   borderRadius: 1,
                   mb: 1,
@@ -196,7 +195,7 @@ const GenerateGuildsModal = ({ open, onClose, session, onGuildsGenerated }) => {
         >
           {generatedGuilds.length > 0 ? 'Concluído' : 'Cancelar'}
         </Button>
-        
+
         {!success && (
           <Button
             onClick={handleGenerate}
